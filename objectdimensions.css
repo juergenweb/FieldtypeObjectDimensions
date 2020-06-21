@@ -1,0 +1,15 @@
+.dimension-field {
+  padding-bottom: 10px;
+}
+
+@media screen and (min-width: 640px) {
+  .dimension-field {
+    display:inline-block;
+    margin-right:20px;
+  }
+}
+
+.hint {
+  font-size: .875rem;
+  color: #8d939e;
+}
