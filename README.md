@@ -52,7 +52,7 @@ There are several configuration options for this fieldtype in the backend.
 - set size unit as suffix after each inputfield (default is cm)
 - set max number of digits that can be entered in each field (default is 10)
 - set max number of decimals (default is 2)
-- show/hide a hint to the user how decimals are allowed
+- show/hide a hint to the user how much decimals are allowed
 
 Some of them can also be changed separately on per template base too.
 
