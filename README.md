@@ -5,6 +5,8 @@ This fieldtype was inspired by the amazing fieldtype "Fieldtype Dimensions" from
 The main differences are that you can use float numbers too and it adds also support for the computed calculation of the floor space of an object.
 The code uses also some parts and ideas from the Fieldtype Decimals ([https://modules.processwire.com/modules/fieldtype-decimal/](https://modules.processwire.com/modules/fieldtype-decimal/)) - especially methods for altering the database schema.
 
+![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/ObjectDimensions.png?raw=true)
+
 ## What it does
 
 This fieldtype let's you define 3 dimensions width / height / depth as integer or float.
