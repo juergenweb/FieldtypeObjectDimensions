@@ -30,6 +30,7 @@ class InputfieldObjectDimensions extends Inputfield
     public function __construct()
     {
         // set default values
+        //$this->set('input_dimensiontype', '3d');
         $this->set('input_sizeunit', 'cm');
         $this->set('input_width', 100);
         $this->set('input_digits', 10);
@@ -172,7 +173,8 @@ class InputfieldObjectDimensions extends Inputfield
       //get all parent input fields
         $inputfields = parent::___getConfigInputfields();
 
-        // ... and add own custom fields
+        // get rid of required config field, because we cannot use it here
+        $inputfields->remove('required');
 
         // field to set the width of the inputfield in px
         $f = $this->modules->get('InputfieldInteger');
@@ -183,7 +185,7 @@ class InputfieldObjectDimensions extends Inputfield
         $f->attr('size', 10);
         $f->attr('min', 10);
         $f->attr('step', 5);
-        $f->description = 'Width of the inputs in pixels.';
+        $f->description = 'Width of each Inputfield in pixels.';
         $inputfields->append($f);
 
         // field to enter a specific size unit for the dimensions (fe cm, inch, m,....) -> will be appended after the inputfield
