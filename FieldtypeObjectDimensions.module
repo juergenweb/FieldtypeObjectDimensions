@@ -9,6 +9,7 @@
 
 class FieldtypeObjectDimensions extends Fieldtype
 {
+
     public function __construct()
     {
         include_once(__DIR__ . '/ObjectDimensions.php');
@@ -34,48 +35,57 @@ class FieldtypeObjectDimensions extends Fieldtype
 
     public function init()
     {
+          $this->addHookAfter('ProcessField::fieldSaved', $this, 'syncDatabase');
+    }
 
-        // We need to hook field save to check if our database field (schema)is up to date
-        $this->addHookAfter('ProcessField::fieldSaved', function ($event) {
-            $field = $event->arguments(0);
 
-            if ($field->type instanceof FieldtypeObjectDimensions) {
+    /**
+	 * After ProcessField::fieldSaved
+	 * We need to hook field save to check if our database field (schema)is up to date
+	 *
+	 * @param HookEvent $event
+	 */
+    public function syncDatabase(HookEvent $event) {
+      $field = $event->arguments(0);
+      //$page = $event->arguments('page');
 
-                //custom validations and messages for configuration input fields
-                $width = $field->input_width;
-                $digits = $field->input_digits;
-                $decimals = $field->input_decimals;
+      if ($field->type instanceof FieldtypeObjectDimensions) {
 
-                // Display a warning that the digit field was empty and therefore the default value was set
-                if (!strlen($width)) {
-                    $field->warning(_x("Field for width was empty, so the default value of 100px was set", 'dimensions'));
-                }
+          //custom validations and messages for configuration input fields
+          $width = $field->input_width;
+          $digits = $field->input_digits;
+          $decimals = $field->input_decimals;
 
-                // Display a warning that the digit field was empty and therefore the default value was set
-                if (!strlen($digits)) {
-                    $field->warning(_x("Field for digits was empty, so the default value of 10 was set", 'dimensions'));
-                }
+          // Display a warning that the digit field was empty and therefore the default value was set
+          if (!strlen($width)) {
+              $field->warning(_x('Field for width was empty, so the default value of 100px was set.', 'dimensions'));
+          }
 
-                // Display a warning that the decimals field was empty and therefore the default value was set
-                if (!strlen($decimals)) {
-                    $field->warning(_x("Field for decimals was empty, so the default value of 2 was set", 'dimensions'));
-                }
+          // Display a warning that the digit field was empty and therefore the default value was set
+          if (!strlen($digits)) {
+              $field->warning(_x('Field for digits was empty, so the default value of 10 was set.', 'dimensions'));
+          }
 
-                // Check if number of decimals is lower than the number of digits, because decimals are always part of the digits (otherwise we will get an MySQL error)
-                if ($decimals > $digits) {
-                    throw new \Exception(_x("The number of decimals must always be lower than the number of digits.", 'dimensions'));
-                }
+          // Display a warning that the decimals field was empty and therefore the default value was set
+          if (!strlen($decimals)) {
+              $field->warning(_x('Field for decimals was empty, so the default value of 2 was set.', 'dimensions'));
+          }
 
-                $m = wire('modules')->get('FieldtypeObjectDimensions');
+          // Check if number of decimals is lower than the number of digits, because decimals are always part of the digits (otherwise we will get an MySQL error)
+          if ($decimals > $digits) {
+              throw new \Exception(_x('The number of decimals must always be lower than the number of digits.', 'dimensions'));
+          }
 
-                $result = $m->syncSchema($field);
+          //.. and now lets sync the schemas
+          $m = wire('modules')->get('FieldtypeObjectDimensions');
 
-                // We just add a message if the database was actually modified
-                if ($result === true) {
-                    $field->message(__("Database schema was updated"));
-                }
-            }
-        });
+          $result = $m->syncSchema($field);
+
+          // We just add a message if the database was actually modified
+          if ($result === true) {
+              $field->message(_x('Database schema was updated.', 'dimensions'));
+          }
+      }
     }
 
 
@@ -88,9 +98,7 @@ class FieldtypeObjectDimensions extends Fieldtype
      */
     public function getInputfield(Page $page, Field $field)
     {
-        return $this
-            ->modules
-            ->get('InputfieldObjectDimensions');
+        return $this->modules->get('InputfieldObjectDimensions');
     }
 
 
@@ -130,16 +138,28 @@ class FieldtypeObjectDimensions extends Fieldtype
 
         //get number of decimals from configuration settings to format the output values
         $decimals = $field->input_decimals;
-
+        // instantiate a new object
         $dim = $this->getBlankValue($page, $field);
-
-        // populate the dim
-        $dim->width = number_format((float)$value['width'], $decimals);
-        $dim->height = number_format((float)$value['height'], $decimals);
-        $dim->depth = number_format((float)$value['depth'], $decimals);
-        $dim->volume = number_format((float)$value['volume'], $decimals);
-        $dim->floorspace = number_format((float)$value['floorspace'], $decimals);
-
+        //set sanitizer depending von decimals value (int|float)
+        if($decimals > 0){
+          //float
+          // populate the dim
+          $dim->width = (float)$value['width'];
+          $dim->height = (float)$value['height'];
+          $dim->depth = (float)$value['depth'];
+          $dim->volume = (float)$value['volume'];
+          $dim->floorspace = (float)$value['floorspace'];
+        } else {
+          //integer
+          // populate the dim
+          $dim->width = (int)$value['width'];
+          $dim->height = (int)$value['height'];
+          $dim->depth = (int)$value['depth'];
+          $dim->volume = (int)$value['volume'];
+          $dim->floorspace = (int)$value['floorspace'];
+        }
+        // make unit callable
+        $dim->unit = (string)$field->input_sizeunit;
         return $dim;
     }
 
@@ -159,6 +179,44 @@ class FieldtypeObjectDimensions extends Fieldtype
 
 
     /**
+     * Calculate space floor from width and depth
+     *
+     * @param int|float $width
+     * @param int|float $depth
+     * @return float|int|null
+     *
+     */
+    private function calculateArea($width, $height)
+    {
+      if((is_numeric($width)) && (is_numeric($height))){
+        return ($width * $height);
+      }
+      return null;
+    }
+
+
+    /**
+     * Calculate volume from width, height and depth
+     *
+     * @param int|float $width
+     * @param int|float $height
+     * @param int|float $depth
+     * @return float|int|null
+     *
+     */
+    private function calculateVolume($width, $height, $depth)
+    {
+      if($this->input_type == '3d'){
+        if((is_numeric($width)) && (is_numeric($height)) && (is_numeric($depth))){
+          return ($width * $height * $depth);
+        }
+        return null;
+      }
+      return null;
+    }
+
+
+    /**
      * Convert from API to DB storage value.
      *
      * @param Page $page
@@ -169,26 +227,23 @@ class FieldtypeObjectDimensions extends Fieldtype
      */
     public function sleepValue(Page $page, Field $field, $value)
     {
-
         // throw error if value is not of the right type
         if (!$value instanceof ObjectDimensions) {
             throw new \Exception(_x('Expecting an instance of ObjectDimensions', 'dimensions'));
         }
 
         // write the values from the inputs to DB after sanitizing
+        $depthValue = ($this->input_type == '3d') ? (float)$value->depth : null;
         $sleepValue = array(
-            'width' => (float)$value->width, // (float) is used for the float sanitizer
+            'width' => (float)$value->width,
             'height' => (float)$value->height,
-            'depth' => (float)$value->depth
+            'depth' => $depthValue
         );
 
-        // recalculate if dimensions have changed
+        // recalculate computed values if dimensions have changed or if database schema has changed
         if ($value->isChanged('width') || $value->isChanged('height') || $value->isChanged('depth')) {
-            $sleepValue['volume'] = (float)($value->width * $value->height * $value->depth);
-        }
-
-        if ($value->isChanged('width') || $value->isChanged('height')) {
-            $sleepValue['floorspace'] = (float)($value->width * $value->height);
+            $sleepValue['volume'] = $this->calculateVolume($value->width,$value->height,$value->depth);
+            $sleepValue['floorspace'] = $this->calculateArea($value->width,$value->height);
         }
         return $sleepValue;
     }
@@ -229,7 +284,7 @@ class FieldtypeObjectDimensions extends Fieldtype
      * @return string
      *
      */
-    public function getConfiguredType(Field $field):string    
+    public function getConfiguredType(Field $field):string
     {
         if(intval($field->input_decimals) !== 0){ //set float schema
           return "decimal(" . intval($field->input_digits) . "," . intval($field->input_decimals) . ")"; // These should always be integers anyway
@@ -253,6 +308,7 @@ class FieldtypeObjectDimensions extends Fieldtype
         $type = $this->getConfiguredType($field);
         // Compare the configured and active signatures
         if (strcasecmp($type, $this->getActiveType($field)) !== 0) {
+
             return true;
         }
         return false;
@@ -276,10 +332,9 @@ class FieldtypeObjectDimensions extends Fieldtype
                 $query = "ALTER TABLE `" . $database->escapeTable($table) . "` MODIFY $col {$this->getConfiguredType($field) } NOT NULL";
                 $database->query($query);
             }
-
-            //return true;
+            return true;
         }
-        //return false;
+        return false;
     }
 
 
