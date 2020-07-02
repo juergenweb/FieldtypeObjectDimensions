@@ -1,14 +1,22 @@
 # ProcessWire-ObjectDimension-Fieldtype
 An Inputfield and Fieldtype for ProcessWire CMS to enter dimensions (width, height, depth) of an object
 
-This fieldtype was inspired by the amazing fieldtype "Fieldtype Dimensions" from SOMA ([https://modules.processwire.com/modules/fieldtype-dimension/](https://modules.processwire.com/modules/fieldtype-dimension/)). This Fieldtype was introduced in 2013 - so its the time to make a makeover of the whole thing.
-The main differences are that you can use float numbers too and it adds also support for the computed calculation of the floor space of an object.
+This fieldtype was inspired by the amazing fieldtype "Fieldtype Dimensions" from SOMA ([https://modules.processwire.com/modules/fieldtype-dimension/](https://modules.processwire.com/modules/fieldtype-dimension/)). This Fieldtype was introduced in 2013 - so its time for a relaunch.
+This fieldtype offers more possibilities than the old one.
+
+The main differences are:
+- you can select if 2 dimensions (width, height) or 3 dimension (width, height and depth) should be displayed. 2 dimensions can be used for photos, wallpapers and so on. 3 dimensions for other objects.
+- you can enter float numbers and integers
+- you can set the maximum number of digits
+- you can set the maximum number of decimals
+- depending on the number of digits and decimals the database schema will be adapted at each change
+
 The code uses also some parts and ideas from the Fieldtype Decimals ([https://modules.processwire.com/modules/fieldtype-decimal/](https://modules.processwire.com/modules/fieldtype-decimal/)) - especially methods for altering the database schema.
 
 ## What it does
 
-This fieldtype let's you define 3 dimensions width / height / depth as integer or float.
-You can select if you want to enter 2 dimensions (width and height) fe for photos, wallpapers or 3 dimensions (width, height and depth) for other objects.
+This inputfield/fieldtype let you enter 3 dimensions (width/height/depth) of an object (fe a product).
+You can select if you want to display inputs for 2 or 3 dimensions.
 
 ### 2 dimensions inputfield:
 ![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/objectdimensions1.png?raw=true)
@@ -27,15 +35,66 @@ echo $page->fieldname->depth;
 ```
 
 
-There's also support for a computed value of the volume (W*H*D) and the space floor (W*D). This will get stored additionally
-to the database and updated every time a dimension value changed. So it can also be used in selectors for querying.
+There's also support for a computed value of the volume (W*H*D) and the area (W*H). This will get stored additionally
+to the database and updated every time a dimension value changes. It can also be used in selectors for querying  (fe list all products where the volume is larger than....)
 
 You can get the computed values in templates by using
 
 ```
 echo $page->fieldname->volume;
-echo $page->fieldname->spacefloor;
+echo $page->fieldname->area;
 ```
+For outputting the selected unit (fe. cm) on the frontend you can use
+
+```
+echo $page->fieldname->unit;
+```
+
+There are also several other render methods than you can use on the frontend
+
+```
+echo $page->fieldname->renderDimensions();
+```
+will produce fe the following output:
+
+```
+0.12cm * 0.35cm * 3.75cm
+```
+
+For more customization you can enter 2 additional parameters.
+The first parameter is for the multiplication sign (default is "*"), the second one if the unit should be displayed (default is true)
+
+```
+echo $page->fieldname->renderDimensions(' x ', false);
+```
+will produce fe the following output:
+
+```
+0.12 x 0.35 x 3.75
+```
+
+Render method for the volume (value including unit):
+
+```
+echo $page->fieldname->renderVolume();
+```
+will output fe
+```
+12,75cm³
+```
+
+Render methods for the area (value including unit):
+
+```
+echo $page->fieldname->renderArea();
+```
+
+This will output fe:
+```
+8,30cm²
+```
+
+
 
 ### Use in selectors strings
 
@@ -53,7 +112,7 @@ or
 
 ### Field Settings
 
-There are several configuration options for this fieldtype in the backend. 
+There are several configuration options for this fieldtype in the backend.
 
 - set width attribute for the inputfield in px (default is 100px)
 - set size unit as suffix after each inputfield (default is cm)
@@ -83,4 +142,3 @@ screen, click the "Check for New Modules" button.
 3. Now scroll to the FieldtypeDimension module and click "Install". The required InputfieldObjectDimension will get installed automatic.
 
 4. Create a new Field with the new "ObjectDimension" Fieldtype.
-
