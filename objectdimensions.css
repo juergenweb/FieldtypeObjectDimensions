@@ -13,3 +13,8 @@
   font-size: .875rem;
   color: #8d939e;
 }
+
+.dimension-field .InputfieldHeader {
+  padding-left:0;
+  background:none;
+}
