@@ -15,7 +15,7 @@ class ObjectDimensions extends WireData {
         $this->set('height', null);
         $this->set('depth', null);
         $this->set('volume', null);
-        $this->set('floorspace', null);
+        $this->set('area', null);
         $this->set('unit', null);
       }
       catch (WireException $e) {
@@ -60,14 +60,14 @@ class ObjectDimensions extends WireData {
 
 
     /**
-    * Method to render the spacefloor fe 25cm²
+    * Method to render the area fe 25cm²
     * @param bool $addUnit (adds fe cm² after the value) true|false
     * @return string
     */
-    public function renderFloorSpace(bool $addUnit = true): string
+    public function renderArea(bool $addUnit = true): string
     {
       $unit = $addUnit ? $this->unit.'<sup>2</sup>' : '';
-      return ($this->floorspace > 0) ? $this->floorspace.$unit : '';
+      return ($this->area > 0) ? $this->area.$unit : '';
     }
 
 
