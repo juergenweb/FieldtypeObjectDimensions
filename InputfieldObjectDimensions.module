@@ -37,8 +37,6 @@ class InputfieldObjectDimensions extends Inputfield
         $this->set('input_decimals', 2);
         $this->set('input_required', []);
         $this->set('input_showhint', false);
-
-        $this->set('width', '');
         parent::__construct();
     }
 
@@ -135,6 +133,7 @@ class InputfieldObjectDimensions extends Inputfield
         }
 
         // loop through all inputs and set them if changed
+        $i = 0;
         foreach($nameAttributes as $key => $name) {
           // get digits and
           $allowedDigits = intval($this->input_digits);
@@ -271,7 +270,7 @@ class InputfieldObjectDimensions extends Inputfield
         $f->value .= '$page->' . $this->name . '->height' . PHP_EOL;
         $f->value .= '$page->' . $this->name . '->depth' . PHP_EOL;
         $f->value .= '$page->' . $this->name . '->volume' . PHP_EOL;
-        $f->value .= '$page->' . $this->name . '->spacefloor' . PHP_EOL;
+        $f->value .= '$page->' . $this->name . '->area' . PHP_EOL;
         $f->value .= '$page->' . $this->name . PHP_EOL;
         $f->value .= '</pre>';
         $inputfields->add($f);
@@ -290,7 +289,7 @@ class InputfieldObjectDimensions extends Inputfield
     public function getConfigAllowContext(Field $field): array
     {
         return [
-          'input_required',
+          'input_type',
           'input_width',
           'input_sizeunit',
           'input_showhint'
