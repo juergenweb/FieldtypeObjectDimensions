@@ -14,8 +14,10 @@ class InputfieldObjectDimensions extends Inputfield
     {
         return [
           'title' => 'Inputfield Object Dimensions',
-          'summary' => 'Renders an input field for entering 2 (width, height) or 3 (width, height and depth) dimensions of an object as integer or float number.',
+          'summary' => 'Renders an inputfield for entering 2 (width, height) or 3 (width, height and depth) dimensions of an object as integer or float number.',
           'version' => 1,
+          'href' => 'https://github.com/juergenweb/FieldtypeObjectDimensions',
+          'icon' => 'cube',
           'permanent' => false,
           'requires' => [
               'FieldtypeObjectDimensions',
@@ -133,7 +135,6 @@ class InputfieldObjectDimensions extends Inputfield
         }
 
         // loop through all inputs and set them if changed
-        $i = 0;
         foreach($nameAttributes as $key => $name) {
           // get digits and
           $allowedDigits = intval($this->input_digits);
@@ -142,7 +143,7 @@ class InputfieldObjectDimensions extends Inputfield
             // validation if required field is not empty
             if ($this->required) {
                 if (empty($input->$name)) {
-                    $this->error(sprintf($this->_('Field "%s" is required and must contain a positive value except 0.'), $this->getLabels()[$key]));
+                    $this->error(sprintf($this->_('Field "%s" is required and must contain a positive value higher than 0.'), $this->getLabels()[$key]));
                     $errors[] = 'required';
                 }
             } else if (!is_numeric($input->$name)) {
@@ -162,7 +163,7 @@ class InputfieldObjectDimensions extends Inputfield
             if ($digitsEntered > $allowedDigits) {
                 $errors[] = 'maximum';
                 // validation if number of digits is not higher than in the config settings
-                $msg = $this->$this->_('Field "%s" only accepts a maximum of %d digits (including decimals). %d digits were entered, so your input was not stored in the database.');
+                $msg = $this->_('Field "%s" only accepts a maximum of %d digits (including decimals). %d digits were entered, so your input was not stored in the database.');
                 $this->error(sprintf($msg, $this->getLabels()[$key], $allowedDigits, $digitsEntered)); // output error message
                 //$value->set($key, null);
             }
