@@ -52,9 +52,9 @@ class ObjectDimensions extends WireData {
     * @param bool $addUnit (adds fe cm³ after the value) true|false
     * @return string
     */
-    public function renderVolume(bool $addUnit = true): string
+    public function renderVolume(): string
     {
-      $unit = $addUnit ? $this->unit.'<sup>3</sup>' : '';
+      $unit = $this->unit.'<sup>3</sup>';
       return ($this->volume > 0) ? $this->volume.$unit : '';
     }
 
@@ -66,7 +66,7 @@ class ObjectDimensions extends WireData {
     */
     public function renderArea(bool $addUnit = true): string
     {
-      $unit = $addUnit ? $this->unit.'<sup>2</sup>' : '';
+      $unit = $this->unit.'<sup>2</sup>';
       return ($this->area > 0) ? $this->area.$unit : '';
     }
 
