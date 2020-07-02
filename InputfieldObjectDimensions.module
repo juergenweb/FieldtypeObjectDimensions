@@ -14,7 +14,7 @@ class InputfieldObjectDimensions extends Inputfield
     {
         return [
           'title' => 'Inputfield Object Dimensions',
-          'summary' => 'Renders an input field for entering 3 dimensions of an object (width, height and depth) as integer or float number.',
+          'summary' => 'Renders an input field for entering 2 (width, height) or 3 (width, height and depth) dimensions of an object as integer or float number.',
           'version' => 1,
           'permanent' => false,
           'requires' => [
