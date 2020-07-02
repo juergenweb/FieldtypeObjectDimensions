@@ -4,7 +4,7 @@ An inputfield and fieldtype for the ProcessWire CMS to enter dimensions (width, 
 This fieldtype was inspired by the amazing fieldtype "Fieldtype Dimensions" from SOMA ([https://modules.processwire.com/modules/fieldtype-dimension/](https://modules.processwire.com/modules/fieldtype-dimension/)). This fieldtype was introduced in 2013 - so its time for a relaunch.
 This new fieldtype offers more possibilities than the old one from SOMA.
 
-**The main differences**
+**The main differences**<br />
 You can select if 2 dimensions (width, height) or 3 dimension (width, height and depth) should be displayed. 2 dimensions can be used for photos, wallpapers and so on. 3 dimensions for other objects.
 You can enter the dimensions as float numbers and as integers and not only as integers.
 
