@@ -31,7 +31,7 @@ echo $page->fieldname->height;
 echo $page->fieldname->depth;
 ```
 
-There's also support for a computed value of the volume (W*H*D) and the area (W*H). This will get stored additionally
+There's also support for a computed value of the volume (WHD) and the area (WH). This will get stored additionally
 to the database and updated every time a dimension value changes. It can also be used in selectors for querying  (fe list all products where the volume is larger than....)
 
 You can get the computed values in templates by using
