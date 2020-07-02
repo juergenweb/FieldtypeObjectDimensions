@@ -62,9 +62,9 @@ class InputfieldObjectDimensions extends Inputfield
     public function getLabels(): array
     {
         return [
-        'width' => _x('Width', 'dimensions'),
-        'height' => _x('Height', 'dimensions'),
-        'depth' => _x('Depth', 'dimensions'),
+        'width' => $this->_('Width'),
+        'height' => $this->_('Height'),
+        'depth' => $this->_('Depth'),
       ];
     }
 
@@ -81,13 +81,13 @@ class InputfieldObjectDimensions extends Inputfield
         $decimals = intval($this->input_decimals);
 
         if ($decimals === 1) {
-            $hint = sprintf(_x('Please enter max. %s digits including %s decimals.', 'dimensions'), $this->input_digits, $this->input_decimals);
+            $hint = sprintf($this->_('Please enter max. %s digits including %s decimals.'), $this->input_digits, $this->input_decimals);
             $steps = '0.1';
         } elseif ($decimals >= 1) {
-            $hint = sprintf(_x('Please enter max. %s digits including %s decimals.', 'dimensions'), $this->input_digits, $this->input_decimals);
+            $hint = sprintf($this->_('Please enter max. %s digits including %s decimals.'), $this->input_digits, $this->input_decimals);
             $steps = '0.'.str_repeat(0, $decimals - 1).'1';
         } else {
-            $hint = sprintf(_x('Please enter max. %s digits and no decimals.', 'dimensions'), $this->input_digits);
+            $hint = sprintf($this->_('Please enter max. %s digits and no decimals.'), $this->input_digits);
             $steps = '1';
         }
         //create placeholder depending on number of decimals
@@ -142,27 +142,27 @@ class InputfieldObjectDimensions extends Inputfield
             // validation if required field is not empty
             if ($this->required) {
                 if (empty($input->$name)) {
-                    $this->error(sprintf(_x('Field "%s" is required and must contain a positive value except 0.', 'dimensions'), $this->getLabels()[$key]));
+                    $this->error(sprintf($this->_('Field "%s" is required and must contain a positive value except 0.'), $this->getLabels()[$key]));
                     $errors[] = 'required';
                 }
             } else if (!is_numeric($input->$name)) {
                       // validation if value is numeric
                       $errors[] = 'numeric';
                       if(!empty($input->$name))
-                        $this->error(sprintf(_x('Field "%s" accepts only numeric values.', 'dimensions'), $this->getLabels()[$key]));
+                        $this->error(sprintf($this->_('Field "%s" accepts only numeric values.'), $this->getLabels()[$key]));
                     } else if ($input->$name <= 0) {
                         //validation if value is > 0
                         $errors[] = 'range';
                         if($this->required){
-                          $this->error(sprintf(_x('Field "%s" accepts only values larger than 0.', 'dimensions'), $this->getLabels()[$key]));
+                          $this->error(sprintf($this->_('Field "%s" accepts only values larger than 0.'), $this->getLabels()[$key]));
                         } else if($input->$name < 0){
-                            $this->error(sprintf(_x('Field "%s" does not accept negative values.', 'dimensions'), $this->getLabels()[$key]));
+                            $this->error(sprintf($this->_('Field "%s" does not accept negative values.'), $this->getLabels()[$key]));
                         }
                     }
             if ($digitsEntered > $allowedDigits) {
                 $errors[] = 'maximum';
                 // validation if number of digits is not higher than in the config settings
-                $msg = $this->_x('Field "%s" only accepts a maximum of %d digits (including decimals). %d digits were entered, so your input was not stored in the database.', 'dimensions');
+                $msg = $this->$this->_('Field "%s" only accepts a maximum of %d digits (including decimals). %d digits were entered, so your input was not stored in the database.');
                 $this->error(sprintf($msg, $this->getLabels()[$key], $allowedDigits, $digitsEntered)); // output error message
                 //$value->set($key, null);
             }
@@ -199,12 +199,12 @@ class InputfieldObjectDimensions extends Inputfield
         $inputfields = parent::___getConfigInputfields();
 
         $f = modules()->get("InputfieldSelect");
-        $f->set("label", _x('Type', 'dimensions'));
+        $f->set("label", $this->_('Type'));
         $f->attr("name+id", "input_type");
         $f->attr("value", $this->input_type);
-        $f->addOptions(['3d' => _x('3 dimensions', 'dimensions'), '2d' => _x('2 dimensions', 'dimensions')]);
+        $f->addOptions(['3d' => $this->_('3 dimensions'), '2d' => $this->_('2 dimensions')]);
         $f->required(true);
-        $f->description = _x('3 dimensions: length, height and depth; 2 dimensions: length and height.', 'dimensions');
+        $f->description = $this->_('3 dimensions: length, height and depth; 2 dimensions: length and height.');
         $inputfields->append($f);
 
         // field to set the width of the inputfield in px
@@ -216,55 +216,55 @@ class InputfieldObjectDimensions extends Inputfield
         $f->attr('size', 10);
         $f->attr('min', 10);
         $f->attr('step', 5);
-        $f->description = _x('Width of each Inputfield in pixels.', 'dimensions');
+        $f->description = $this->_('Width of each Inputfield in pixels.');
         $inputfields->append($f);
 
         // field to enter a specific size unit for the dimensions (fe cm, inch, m,....) -> will be appended after the inputfield
         $f = $this->modules->get('InputfieldText');
         $f->attr('name+id', 'input_sizeunit');
-        $f->label =  _x('Size unit', 'dimensions');
+        $f->label =  $this->_('Size unit');
         $f->attr('value', $this->input_sizeunit);
         $f->attr('size', 10);
-        $f->description = _x('The size unit for the 3 dimensions.', 'dimensions');
+        $f->description = $this->_('The size unit for the 3 dimensions.');
         $inputfields->append($f);
 
         // field to enter the number of digits
         $f = $this->modules->get('InputfieldInteger');
         $f->attr('name+id', 'input_digits');
         $f->attr('type', 'number');
-        $f->label =  _x('Number of digits', 'dimensions');
+        $f->label =  $this->_('Number of digits');
         $f->attr('value', $this->input_digits);
         $f->attr('size', 10);
         $f->attr('min', 3);
         $f->attr('max', 64);
-        $f->description = _x('The number of digits (including decimals) that can be entered in the dimension fields.', 'dimensions');
+        $f->description = $this->_('The number of digits (including decimals) that can be entered in the dimension fields.');
         $inputfields->append($f);
 
         // field to enter the number of decimals (fe 2) -> will be appended after the inputfield
         $f = $this->modules->get('InputfieldInteger');
         $f->attr('name+id', 'input_decimals');
         $f->attr('type', 'number');
-        $f->label =  _x('Number of decimals', 'dimensions');
+        $f->label =  $this->_('Number of decimals');
         $f->attr('value', $this->input_decimals);
         $f->attr('size', 10);
         $f->attr('min', 0);
         $f->attr('max', 30);
-        $f->description = _x('The number of decimals that can be entered in the dimension fields.', 'dimensions');
-        $f->notes = _x('A value of 0 means that the dimension value is type of integer and not float (no decimals).', 'dimensions');
+        $f->description = $this->_('The number of decimals that can be entered in the dimension fields.');
+        $f->notes = $this->_('A value of 0 means that the dimension value is type of integer and not float (no decimals).');
         $inputfields->append($f);
 
         // checkbox field to enable/disable the hint text for the max numbers of decimals on the form
         $f = $this->modules->get('InputfieldCheckbox');
         $f->attr('name+id', 'input_showhint');
         $f->attr('checked', $this->input_showhint == '1' ? 'checked' : '');
-        $f->checkboxLabel = _x('Show hint', 'dimensions');
-        $f->label =  _x('Show hint for max number of digits and decimals below input fields.', 'dimensions');
-        $f->description = _x('If checked a hint text will be displayed under the input fields to inform the user how much digits and decimals are allowed.', 'dimensions');
+        $f->checkboxLabel = $this->_('Show hint');
+        $f->label =  $this->_('Show hint for max number of digits and decimals below input fields.');
+        $f->description = $this->_('If checked a hint text will be displayed under the input fields to inform the user how much digits and decimals are allowed.');
         $inputfields->append($f);
 
         $f = $this->modules->get('InputfieldMarkup');
-        $f->label = _x('API Notes', 'dimensions');
-        $f->description = _x('The following can be used in your templates:', 'dimensions');
+        $f->label = $this->_('API Notes');
+        $f->description = $this->_('The following can be used in your templates:');
         $f->value .= '<pre>';
         $f->value .= '$page->' . $this->name . '->width' . PHP_EOL;
         $f->value .= '$page->' . $this->name . '->height' . PHP_EOL;
