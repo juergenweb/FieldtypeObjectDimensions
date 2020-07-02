@@ -29,30 +29,17 @@ class InputfieldObjectDimensions extends Inputfield
 
     public function __construct()
     {
-        // set default values
-        //$this->set('input_dimensiontype', '3d');
+        // set default values for field configuration
+        $this->set('input_type', '3d');
         $this->set('input_sizeunit', 'cm');
         $this->set('input_width', 100);
         $this->set('input_digits', 10);
         $this->set('input_decimals', 2);
-        $this->set('input_showhint', '');
+        $this->set('input_required', []);
+        $this->set('input_showhint', false);
+
+        $this->set('width', '');
         parent::__construct();
-    }
-
-
-    /**
-    * Define the labels for the dimensions as (DB column name => label text)
-    * @return array
-    */
-    private static function getDimensionNames(): array
-    {
-        // name in db => label names
-        return [
-          'width' => _x('Width', 'dimensions'),
-          'height' => _x('Height', 'dimensions'),
-          'depth' => _x('Depth', 'dimensions')
-        ];
-
     }
 
 
@@ -61,52 +48,63 @@ class InputfieldObjectDimensions extends Inputfield
     */
     public function init()
     {
+        $info = $this->getModuleInfo();
+        $version = $info['version'];
         //Add CSS and JS files
-        $this->config->styles->add(config()->urls->{$this->className} . 'objectdimensions.css');
-        $this->config->scripts->add(config()->urls->{$this->className} . 'objectdimensions.js');
-
+        $this->config->styles->add(config()->urls->{$this->className} . 'objectdimensions.css?v='.$version);
+        $this->config->scripts->add(config()->urls->{$this->className} . 'objectdimensions.js?v='.$version);
         return parent::init();
-
     }
 
 
     /**
-    * Method to render the form in the backend
+    * Method to get the labels of the inputfields
+    * @return array
+    */
+    public function getLabels(): array
+    {
+        return [
+        'width' => _x('Width', 'dimensions'),
+        'height' => _x('Height', 'dimensions'),
+        'depth' => _x('Depth', 'dimensions'),
+      ];
+    }
+
+    /**
+    * Method to render the inputfields for the dimension values
     * @return string
     */
     public function ___render(): string
     {
-        $inputs = self::getDimensionNames();
-
         $out = '';
-
         $value = $this->attr('value') ? $this->attr('value') : new ObjectDimension();
 
         //check demimals setting
         $decimals = intval($this->input_decimals);
 
-        if($decimals=== 1){
-          $steps = '0.1';
-          $hint = sprintf(_x('Only one decimals can be entered', 'dimensions'), $this->input_decimals);
-        } else if($decimals >= 1){
-          $hint = sprintf(_x('Up to %d decimals can be entered', 'dimensions'), $this->input_decimals);
-          $zeros = str_repeat(0, $decimals - 1);
-          $steps = '0.'.$zeros.'1';
-          $steps = floatval($steps);
+        if ($decimals === 1) {
+            $hint = sprintf(_x('Please enter max. %s digits including %s decimals.', 'dimensions'), $this->input_digits, $this->input_decimals);
+            $steps = '0.1';
+        } elseif ($decimals >= 1) {
+            $hint = sprintf(_x('Please enter max. %s digits including %s decimals.', 'dimensions'), $this->input_digits, $this->input_decimals);
+            $steps = '0.'.str_repeat(0, $decimals - 1).'1';
         } else {
-          $hint = _x('Only integers are allowed (no decimals)', 'dimensions');
-          $steps = '1';
+            $hint = sprintf(_x('Please enter max. %s digits and no decimals.', 'dimensions'), $this->input_digits);
+            $steps = '1';
         }
         //create placeholder depending on number of decimals
-         $placeholderStr = '0.'.str_repeat('0', $this->input_decimals);
-        foreach ($inputs as $key=>$v) {
-            $out .= '<div id="'.$key.'_dimension" class="dimension-field">';
-            $out .= '<label>'.$v.': <input class="two-decimals" type="number" min="0" style="width:'.$this->input_width.'px" name="'.$this->name.'_'.$key.'" id="Inputfield_'.$key.'" value="'.$this->value->$key.'" step="'.$steps.'" oninput="restrict(this,'.$decimals.');" placeholder="'.$placeholderStr.'"/> '.$this->input_sizeunit.'</label>';
-            $out .= '</div>';
+        $placeholderStr = '0.'.str_repeat('0', $this->input_decimals);
+        foreach ($this->getLabels() as $key=>$v) {
+            if((($this->input_type == '2d') && ($key != 'depth')) || ($this->input_type == '3d')){
+              $out .= '<div id="'.$key.'_dimension" class="dimension-field">';
+              $out .= '<label class="InputfieldHeader uk-form-label InputfieldStateToggle" for="'.$this->name.'_'.$key.'">'.$v.': </label>';
+              $out .= '<input id="'.$this->name.'_'.$key.'" class="two-decimals" type="number" min="0" style="width:'.$this->input_width.'px" name="'.$this->name.'_'.$key.'" id="Inputfield_'.$key.'" value="'.$this->value->$key.'" step="'.$steps.'" oninput="restrict(this,'.$decimals.');" placeholder="'.$placeholderStr.'"/> '.$this->input_sizeunit;
+              $out .= '</div>';
+            }
         }
-
-        if($this->input_showhint){
-          $out .= '<div><p class="hint">'.$hint.'.</p></div>';
+        // inform the user about how much decimals can be entered
+        if ($this->input_showhint) {
+            $out .= '<div><p class="hint">'.$hint.'</p></div>';
         }
 
         return $out;
@@ -117,45 +115,73 @@ class InputfieldObjectDimensions extends Inputfield
      * Pull the value from the given $input argument ($_POST or $_GET data) as WireInputData object, sanitize/validate it, and populate it to the value attribute of this Inputfield.
      *
      * @param WireInputData $input
-     * @return InputfieldObjectDimensions
+     * @return $this
      *
      */
-     public function ___processInput(WireInputData $input): InputfieldObjectDimensions
+    public function ___processInput(WireInputData $input): self
     {
         $name = $this->attr('name');
         $value = $this->attr('value');
 
         $nameAttributes = [ // name in db => name input element
           'width' => $name . "_width",
-          'height' => $name . "_height",
-          'depth' => $name . "_depth"
+          'height' => $name . "_height"
         ];
 
-        // loop all inputs and set them if changed
-        foreach ($nameAttributes as $key => $name) {
-
-            if (isset($input->$name)) {
-                if ($value->$key != $input->$name) {
-                    if (!is_numeric($input->$name) && !empty($input->$name)) {
-                        // in case the input isn't numeric show an error
-                        $this->error($this->_("Field only accepts numbers (floats or integer) values"));
-                    } else {
-                        // validation: check if number of digits is not higher than in the config settings
-                        $allowedDigits = intval($this->input_digits);
-                        $digitsEntered = strlen((string)$input->$name);
-                        if($digitsEntered > $allowedDigits){
-                          $msg = $this->_("Field only accepts a maximum of %d digits (including decimals). %d digits were entered, so your changes were not saved");
-                          $this->error(sprintf($msg, $allowedDigits, $digitsEntered)); // output error message
-
-                        } else {
-                          $value->set($key, (float) $input->$name);
-                          $this->trackChange('value');
-                        }
-                    }
-                }
-            }
+        // if 3 dimension add depth to the array
+        if($this->input_type == '3d'){
+          $depth = [ 'depth' => $name . "_depth"];
+          $nameAttributes = array_merge($nameAttributes, $depth);
         }
 
+        // loop through all inputs and set them if changed
+        foreach($nameAttributes as $key => $name) {
+          // get digits and
+          $allowedDigits = intval($this->input_digits);
+          $digitsEntered = strlen((string)$input->$name);
+          $errors = [];
+            // validation if required field is not empty
+            if ($this->required) {
+                if (empty($input->$name)) {
+                    $this->error(sprintf(_x('Field "%s" is required and must contain a positive value except 0.', 'dimensions'), $this->getLabels()[$key]));
+                    $errors[] = 'required';
+                }
+            } else if (!is_numeric($input->$name)) {
+                      // validation if value is numeric
+                      $errors[] = 'numeric';
+                      if(!empty($input->$name))
+                        $this->error(sprintf(_x('Field "%s" accepts only numeric values.', 'dimensions'), $this->getLabels()[$key]));
+                    } else if ($input->$name <= 0) {
+                        //validation if value is > 0
+                        $errors[] = 'range';
+                        if($this->required){
+                          $this->error(sprintf(_x('Field "%s" accepts only values larger than 0.', 'dimensions'), $this->getLabels()[$key]));
+                        } else if($input->$name < 0){
+                            $this->error(sprintf(_x('Field "%s" does not accept negative values.', 'dimensions'), $this->getLabels()[$key]));
+                        }
+                    }
+            if ($digitsEntered > $allowedDigits) {
+                $errors[] = 'maximum';
+                // validation if number of digits is not higher than in the config settings
+                $msg = $this->_x('Field "%s" only accepts a maximum of %d digits (including decimals). %d digits were entered, so your input was not stored in the database.', 'dimensions');
+                $this->error(sprintf($msg, $this->getLabels()[$key], $allowedDigits, $digitsEntered)); // output error message
+                //$value->set($key, null);
+            }
+
+            if(!count($errors)){
+              // if no errors occur at all, sanitize and set the value back to the inputfield and track potential changes in the value
+              if ($this->input_decimals > 0) {
+                  $sanitizedValue = (float) $input->$name;
+              } else {
+                  $sanitizedValue = (int) $input->$name;
+              }
+              $value->set($key, $sanitizedValue);
+              $this->trackChange('value');
+            }
+
+
+
+        }
         return $this;
     }
 
@@ -173,24 +199,30 @@ class InputfieldObjectDimensions extends Inputfield
       //get all parent input fields
         $inputfields = parent::___getConfigInputfields();
 
-        // get rid of required config field, because we cannot use it here
-        $inputfields->remove('required');
+        $f = modules()->get("InputfieldSelect");
+        $f->set("label", _x('Type', 'dimensions'));
+        $f->attr("name+id", "input_type");
+        $f->attr("value", $this->input_type);
+        $f->addOptions(['3d' => _x('3 dimensions', 'dimensions'), '2d' => _x('2 dimensions', 'dimensions')]);
+        $f->required(true);
+        $f->description = _x('3 dimensions: length, height and depth; 2 dimensions: length and height.', 'dimensions');
+        $inputfields->append($f);
 
         // field to set the width of the inputfield in px
         $f = $this->modules->get('InputfieldInteger');
-        $f->attr('name', 'input_width');
+        $f->attr('name+id', 'input_width');
         $f->label = 'Input width';
         $f->attr('type', 'number');
         $f->attr('value', $this->input_width);
         $f->attr('size', 10);
         $f->attr('min', 10);
         $f->attr('step', 5);
-        $f->description = 'Width of each Inputfield in pixels.';
+        $f->description = _x('Width of each Inputfield in pixels.', 'dimensions');
         $inputfields->append($f);
 
         // field to enter a specific size unit for the dimensions (fe cm, inch, m,....) -> will be appended after the inputfield
         $f = $this->modules->get('InputfieldText');
-        $f->attr('name', 'input_sizeunit');
+        $f->attr('name+id', 'input_sizeunit');
         $f->label =  _x('Size unit', 'dimensions');
         $f->attr('value', $this->input_sizeunit);
         $f->attr('size', 10);
@@ -199,7 +231,7 @@ class InputfieldObjectDimensions extends Inputfield
 
         // field to enter the number of digits
         $f = $this->modules->get('InputfieldInteger');
-        $f->attr('name', 'input_digits');
+        $f->attr('name+id', 'input_digits');
         $f->attr('type', 'number');
         $f->label =  _x('Number of digits', 'dimensions');
         $f->attr('value', $this->input_digits);
@@ -211,7 +243,7 @@ class InputfieldObjectDimensions extends Inputfield
 
         // field to enter the number of decimals (fe 2) -> will be appended after the inputfield
         $f = $this->modules->get('InputfieldInteger');
-        $f->attr('name', 'input_decimals');
+        $f->attr('name+id', 'input_decimals');
         $f->attr('type', 'number');
         $f->label =  _x('Number of decimals', 'dimensions');
         $f->attr('value', $this->input_decimals);
@@ -224,11 +256,11 @@ class InputfieldObjectDimensions extends Inputfield
 
         // checkbox field to enable/disable the hint text for the max numbers of decimals on the form
         $f = $this->modules->get('InputfieldCheckbox');
-        $f->attr('name', 'input_showhint');
+        $f->attr('name+id', 'input_showhint');
         $f->attr('checked', $this->input_showhint == '1' ? 'checked' : '');
         $f->checkboxLabel = _x('Show hint', 'dimensions');
-        $f->label =  _x('Show hint for max number of decimals below input fields.', 'dimensions');
-        $f->description = _x('If checked a hint text will be displayed under the input fields to show users how much decimals are allowed.', 'dimensions');
+        $f->label =  _x('Show hint for max number of digits and decimals below input fields.', 'dimensions');
+        $f->description = _x('If checked a hint text will be displayed under the input fields to inform the user how much digits and decimals are allowed.', 'dimensions');
         $inputfields->append($f);
 
         $f = $this->modules->get('InputfieldMarkup');
@@ -258,11 +290,10 @@ class InputfieldObjectDimensions extends Inputfield
     public function getConfigAllowContext(Field $field): array
     {
         return [
+          'input_required',
           'input_width',
           'input_sizeunit',
           'input_showhint'
         ];
     }
-
-
 }
