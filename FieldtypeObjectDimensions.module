@@ -23,6 +23,8 @@ class FieldtypeObjectDimensions extends Fieldtype
             'title' => 'Fieldtype Object Dimensions',
             'summary' => 'Fieldtype to store width, height, depth, volume and area of an object.',
             'version' => 1,
+            'href' => 'https://github.com/juergenweb/FieldtypeObjectDimensions',
+            'icon' => 'cube',
             'installs' => 'InputfieldObjectDimensions',
             'requires' => [
                 'PHP>=7.0.0',
@@ -90,7 +92,7 @@ class FieldtypeObjectDimensions extends Fieldtype
     }
 
     /**
-	 * After ProcessField::fieldSaved
+	 * After ProcessField::fieldSaved -> runs after saving the field configuration
 	 * We need to hook field save to set depth and volume to 0 in database if type was changed from 3d to 2d, because this properties do not exist on 2d
 	 *
 	 * @param HookEvent $event
@@ -154,29 +156,16 @@ class FieldtypeObjectDimensions extends Fieldtype
 
     public function wakeupValue(Page $page, Field $field, $value)
     {
-
-        //get number of decimals from configuration settings to format the output values
-        $decimals = $field->input_decimals;
         // instantiate a new object
         $dim = $this->getBlankValue($page, $field);
-        //set sanitizer depending von decimals value (int|float)
-        if($decimals > 0){
-          //float
-          // populate the dim
-          $dim->width = (float)$value['width'];
-          $dim->height = (float)$value['height'];
-          $dim->depth = (float)$value['depth'];
-          $dim->volume = (float)$value['volume'];
-          $dim->area = (float)$value['area'];
-        } else {
-          //integer
-          // populate the dim
-          $dim->width = (int)$value['width'];
-          $dim->height = (int)$value['height'];
-          $dim->depth = (int)$value['depth'];
-          $dim->volume = (int)$value['volume'];
-          $dim->area = (int)$value['area'];
-        }
+
+        // populate the dim
+        $dim->width = (float)$value['width'];
+        $dim->height = (float)$value['height'];
+        $dim->depth = (float)$value['depth'];
+        $dim->volume = (float)$value['volume'];
+        $dim->area = (float)$value['area'];
+
         // make unit callable
         $dim->unit = (string)$field->input_sizeunit;
         return $dim;
@@ -252,12 +241,12 @@ class FieldtypeObjectDimensions extends Fieldtype
         }
 
         // write the values from the inputs to DB after sanitizing
-        $depthValue = ($field->input_type == '3d') ? (float)$value->depth : null;
+        //$depthValue = ($field->input_type == '3d') ? (float)$value->depth : null;
 
         $sleepValue = array(
             'width' => (float)$value->width,
             'height' => (float)$value->height,
-            'depth' => $depthValue
+            'depth' => (float)$value->depth
         );
 
         // recalculate computed values if dimensions have changed or if database schema has changed
