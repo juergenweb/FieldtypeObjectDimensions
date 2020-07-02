@@ -8,7 +8,13 @@ The code uses also some parts and ideas from the Fieldtype Decimals ([https://mo
 ## What it does
 
 This fieldtype let's you define 3 dimensions width / height / depth as integer or float.
-![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/ObjectDimensions.png?raw=true)
+You can select if you want to enter 2 dimensions (width and height) fe for photos, wallpapers or 3 dimensions (width, height and depth) for other objects.
+
+###2 dimensions inputfield:
+![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/objectdimensions1.png?raw=true)
+
+###3 dimensions inputfield:
+![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/objectdimensions1.png?raw=true)
 
 ### Output the values in templates
 
