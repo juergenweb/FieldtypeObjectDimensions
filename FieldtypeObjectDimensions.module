@@ -1,7 +1,7 @@
 <?php namespace ProcessWire;
 
 /**
- * Fieldtype ObjectDimensions that stores width, height, depth, volume and floor space  data in the database
+ * Fieldtype ObjectDimensions that stores width, height, depth, volume(W*H*D) and area(W*H) data in the database
  *
  * @author Jürgen Kern
  * @license Licensed under MIT
@@ -35,7 +35,8 @@ class FieldtypeObjectDimensions extends Fieldtype
 
     public function init()
     {
-          $this->addHookAfter('ProcessField::fieldSaved', $this, 'syncDatabase');
+      $this->addHookAfter('ProcessField::fieldSaved', $this, 'syncDatabase');
+      $this->addHookAfter('ProcessField::fieldSaved', $this, 'removeDepthVolumeValue');
     }
 
 
@@ -88,6 +89,24 @@ class FieldtypeObjectDimensions extends Fieldtype
       }
     }
 
+    /**
+	 * After ProcessField::fieldSaved
+	 * We need to hook field save to set depth and volume to 0 in database if type was changed from 3d to 2d, because this properties do not exist on 2d
+	 *
+	 * @param HookEvent $event
+	 */
+    public function removeDepthVolumeValue(HookEvent $event) {
+      $field = $event->arguments(0);
+      if($field->input_type == '2d'){
+        $database = $this->database;
+        $table = $field->getTable();
+        // update column depth and volume to value 0
+        $query = "UPDATE `" . $database->escapeTable($table) . "` SET depth = 0, volume = 0";
+        $database->query($query);
+        return true;
+      }
+
+    }
 
     /**
      * @param \ProcessWire\Page $page
@@ -148,7 +167,7 @@ class FieldtypeObjectDimensions extends Fieldtype
           $dim->height = (float)$value['height'];
           $dim->depth = (float)$value['depth'];
           $dim->volume = (float)$value['volume'];
-          $dim->floorspace = (float)$value['floorspace'];
+          $dim->area = (float)$value['area'];
         } else {
           //integer
           // populate the dim
@@ -156,7 +175,7 @@ class FieldtypeObjectDimensions extends Fieldtype
           $dim->height = (int)$value['height'];
           $dim->depth = (int)$value['depth'];
           $dim->volume = (int)$value['volume'];
-          $dim->floorspace = (int)$value['floorspace'];
+          $dim->area = (int)$value['area'];
         }
         // make unit callable
         $dim->unit = (string)$field->input_sizeunit;
@@ -179,7 +198,7 @@ class FieldtypeObjectDimensions extends Fieldtype
 
 
     /**
-     * Calculate space floor from width and depth
+     * Calculate area from width and depth
      *
      * @param int|float $width
      * @param int|float $depth
@@ -204,9 +223,9 @@ class FieldtypeObjectDimensions extends Fieldtype
      * @return float|int|null
      *
      */
-    private function calculateVolume($width, $height, $depth)
+    private function calculateVolume($width, $height, $depth, Field $field)
     {
-      if($this->input_type == '3d'){
+      if($field->input_type == '3d'){
         if((is_numeric($width)) && (is_numeric($height)) && (is_numeric($depth))){
           return ($width * $height * $depth);
         }
@@ -233,7 +252,8 @@ class FieldtypeObjectDimensions extends Fieldtype
         }
 
         // write the values from the inputs to DB after sanitizing
-        $depthValue = ($this->input_type == '3d') ? (float)$value->depth : null;
+        $depthValue = ($field->input_type == '3d') ? (float)$value->depth : null;
+
         $sleepValue = array(
             'width' => (float)$value->width,
             'height' => (float)$value->height,
@@ -242,8 +262,8 @@ class FieldtypeObjectDimensions extends Fieldtype
 
         // recalculate computed values if dimensions have changed or if database schema has changed
         if ($value->isChanged('width') || $value->isChanged('height') || $value->isChanged('depth')) {
-            $sleepValue['volume'] = $this->calculateVolume($value->width,$value->height,$value->depth);
-            $sleepValue['floorspace'] = $this->calculateArea($value->width,$value->height);
+            $sleepValue['volume'] = $this->calculateVolume($value->width,$value->height,$value->depth, $field);
+            $sleepValue['area'] = $this->calculateArea($value->width,$value->height);
         }
         return $sleepValue;
     }
@@ -272,7 +292,7 @@ class FieldtypeObjectDimensions extends Fieldtype
         $schema['height'] = 'DECIMAL(10, 2) NOT NULL default 0.00';
         $schema['depth'] = 'DECIMAL(10, 2) NOT NULL default 0.00';
         $schema['volume'] = 'DECIMAL(10, 2) NOT NULL default 0.00';
-        $schema['floorspace'] = 'DECIMAL(10, 2) NOT NULL default 0.00';
+        $schema['area'] = 'DECIMAL(10, 2) NOT NULL default 0.00';
 
         return $schema;
     }
@@ -327,7 +347,7 @@ class FieldtypeObjectDimensions extends Fieldtype
             $table = $field->getTable();
 
             // alter all dimension field columns to the new type
-            $columns = ['width', 'height', 'depth', 'volume', 'floorspace'];
+            $columns = ['width', 'height', 'depth', 'volume', 'area'];
             foreach ($columns as $col) {
                 $query = "ALTER TABLE `" . $database->escapeTable($table) . "` MODIFY $col {$this->getConfiguredType($field) } NOT NULL";
                 $database->query($query);
