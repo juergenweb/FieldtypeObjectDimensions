@@ -292,7 +292,6 @@ class InputfieldObjectDimensions extends Inputfield
         return [
           'input_type',
           'input_width',
-          'input_sizeunit',
           'input_showhint'
         ];
     }
