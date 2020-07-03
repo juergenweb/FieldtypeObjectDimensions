@@ -117,7 +117,7 @@ There are several configuration options for this fieldtype in the backend.
 
 Some of the configurations settings can also be changed separately on per template base too.
 
-If number of decimals will be changed, the database schema for each dimension column will also changes.
+If number of decimals will be changed, the database schema for each dimension column will also change.
 
 For example:
 If the schema for each dimension field in the DB is f.e. decimal(10,2) and you will set the number of digits in the configuration to 12 and the number of decimals to 1, then the schema in the DB will also change to decimal(12,1) after saving the inputfield.
