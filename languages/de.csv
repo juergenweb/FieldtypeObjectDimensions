@@ -11,6 +11,7 @@ Depth,Tiefe,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.m
 "Field ""%s"" only accepts a maximum of %d digits (including decimals). %d digits were entered, so your input was not stored in the database.","Das Feld ""%s"" akzeptiert nur maximal %d Stellen (einschließlich Dezimalstellen). %d Ziffern wurden eingegeben, daher wurde Ihre Eingabe nicht in der Datenbank gespeichert.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,21c3de0d91720414c488c1840b275cfa
 Type,Typ,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,a1fa27779242b4902f7ae3bdd5c6d508
 "3 dimensions","3 Dimensionen",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,3c65bb24f9e0fd72ffd943032d1d35dc
+"2 dimensions","2 Dimensionen",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,8546f1328193c3d393bab0049084bba7
 "3 dimensions: length, height and depth; 2 dimensions: length and height.","3 Dimensionen: Länge, Höhe und Tiefe; 2 Dimensionen: Länge und Höhe.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,1d9402e2f145f393e47ed2005c44bb9b
 "Width of each Inputfield in pixels.","Breite jedes Eingabefeldes in Pixel.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,41f56d0b364edfabf4d272e179fa6f6e
 "Size unit",Größeneinheit,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,3678b48070e854518827a52cedc46389
