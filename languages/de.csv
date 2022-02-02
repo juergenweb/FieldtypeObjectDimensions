@@ -1,0 +1,27 @@
+en,de,description,file,hash
+Width,Länge,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,32954654ac8fe66a1d09be19001de2d4
+Height,Höhe,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,eec6c4bdbd339edf8cbea68becb85244
+Depth,Tiefe,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,675056ad1441b6375b2c5abd48c27ef1
+"Please enter max. %s digits including %s decimals.","Bitte geben Sie max. %s Ziffern einschließlich %s Dezimalstellen ein.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,3283751c3cde524977d93272395f1f79
+"Please enter max. %s digits and no decimals.","Bitte geben Sie max. %s Ziffern und keine Dezimalstellen ein.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,db195a1e32e56e7c45eaa1623fc14c6e
+"Field ""%s"" is required and must contain a positive value higher than 0.","Das Feld ""%s"" ist erforderlich und muss einen positiven Wert größer als 0 enthalten.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,c527c8b064fe4a4d45dce2474926672b
+"Field ""%s"" accepts only numeric values.","Das Feld ""%s"" akzeptiert nur numerische Werte.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,b373f6fbf893f68d651a4b53c35eb980
+"Field ""%s"" accepts only values larger than 0.","Das Feld ""%s"" akzeptiert nur Werte größer als 0.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,ae777017188097aada8dc5db2efe30dc
+"Field ""%s"" does not accept negative values.","Das Feld ""%s"" akzeptiert keine negativen Werte.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,489710b308d02fa8ecfae112452e87e3
+"Field ""%s"" only accepts a maximum of %d digits (including decimals). %d digits were entered, so your input was not stored in the database.","Das Feld ""%s"" akzeptiert nur maximal %d Stellen (einschließlich Dezimalstellen). %d Ziffern wurden eingegeben, daher wurde Ihre Eingabe nicht in der Datenbank gespeichert.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,21c3de0d91720414c488c1840b275cfa
+Type,Typ,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,a1fa27779242b4902f7ae3bdd5c6d508
+"3 dimensions","3 Dimensionen",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,3c65bb24f9e0fd72ffd943032d1d35dc
+"3 dimensions: length, height and depth; 2 dimensions: length and height.","3 Dimensionen: Länge, Höhe und Tiefe; 2 Dimensionen: Länge und Höhe.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,1d9402e2f145f393e47ed2005c44bb9b
+"Width of each Inputfield in pixels.","Breite jedes Eingabefeldes in Pixel.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,41f56d0b364edfabf4d272e179fa6f6e
+"Size unit",Größeneinheit,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,3678b48070e854518827a52cedc46389
+"The size unit for the 3 dimensions.","Die Größeneinheit für die 3 Dimensionen.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,54d541fc5db234706d45bf758607ec91
+"Number of digits","Anzahl an Ziffern",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,545b1c9f15d65442d37ed51a932f119b
+"The number of digits (including decimals) that can be entered in the dimension fields.","Die Anzahl der Ziffern (einschließlich Dezimalstellen), die in die Dimensionsfelder eingegeben werden können.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,f3b847d93be3a1cc55a5a33dd9a11db1
+"Number of decimals","Anzahl der Dezimalstellen",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,0a1e355325f75fe4cc3bf08b0f31f1c2
+"The number of decimals that can be entered in the dimension fields.","Die Anzahl der Dezimalstellen, die in die Dimensionsfelder eingegeben werden können.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,85952b961f0fc0d497a56314c17135a5
+"A value of 0 means that the dimension value is type of integer and not float (no decimals).","Ein Wert von 0 bedeutet, dass der Dimensionswert eine ganze Zahl und kein Gleitkommawert ist (keine Dezimalstellen).",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,1dd4b7b80fcf23e3ac7954aeffb28710
+"Show hint","Hinweis anzeigen",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,d9bc6f4826dccbd3d948c5e26e146374
+"Show hint for max number of digits and decimals below input fields.","Hinweis für die maximale Anzahl von Stellen und Dezimalstellen unter den Eingabefeldern anzeigen.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,e61f6814baef3ccc60222eb3057893f9
+"If checked a hint text will be displayed under the input fields to inform the user how much digits and decimals are allowed.","Wenn diese Option aktiviert ist, wird unter den Eingabefeldern ein Hinweistext angezeigt, der den Benutzer darüber informiert, wie viele Ziffern und Dezimalstellen zulässig sind.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,19512304bdbac9a24ccf7407b4d5a035
+"API Notes",API-Hinweise,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,87f83506dee160df49b8d3ca189246af
+"The following can be used in your templates:","Folgendes kann in Ihren Vorlagen verwendet werden:",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,9fddbdf1f74569d58a27de194811a1bf
