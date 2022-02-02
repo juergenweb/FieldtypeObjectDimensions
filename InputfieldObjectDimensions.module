@@ -203,7 +203,10 @@ class InputfieldObjectDimensions extends Inputfield
         $f->set("label", $this->_('Type'));
         $f->attr("name+id", "input_type");
         $f->attr("value", $this->input_type);
-        $f->addOptions(['3d' => $this->_('3 dimensions'), '2d' => $this->_('2 dimensions')]);
+        $f->addOptions([
+          '3d' => $this->_('3 dimensions'),
+          '2d' => $this->_('2 dimensions')
+        ]);
         $f->required(true);
         $f->description = $this->_('3 dimensions: length, height and depth; 2 dimensions: length and height.');
         $inputfields->append($f);
