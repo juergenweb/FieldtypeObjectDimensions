@@ -22,12 +22,12 @@ class FieldtypeObjectDimensions extends Fieldtype
         return array(
             'title' => 'Fieldtype Object Dimensions',
             'summary' => 'Fieldtype to store width, height, depth, volume and area of an object.',
-            'version' => 1,
+            'version' => '1.2.0',
             'href' => 'https://github.com/juergenweb/FieldtypeObjectDimensions',
             'icon' => 'cube',
             'installs' => 'InputfieldObjectDimensions',
             'requires' => [
-                'PHP>=7.0.0',
+                'PHP>=7.2.0',
                 'ProcessWire>=3'
               ],
             'author' => 'Jürgen Kern'
