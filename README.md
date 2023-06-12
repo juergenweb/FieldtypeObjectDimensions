@@ -19,7 +19,7 @@ You can select if you want to display inputs for 2 or 3 dimensions.
 ![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/images/objectdimensions1.png?raw=true)
 
 ### 3 dimensions inputfield:
-![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/objectdimensions2.png?raw=true)
+![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/images/objectdimensions2.png?raw=true)
 
 ### Output the values in templates
 
