@@ -101,7 +101,14 @@ class InputfieldObjectDimensions extends Inputfield {
         }
         //create placeholder depending on number of decimals
         $placeholderStr = '0.' . str_repeat('0', $this->input_decimals);
-        foreach (self::getLabels() as $key => $v) {
+
+        // remove volume, area and dimensions from getLabels
+        $dimensionItems = self::getLabels();
+        unset($dimensionItems['volume']);
+        unset($dimensionItems['area']);
+        unset($dimensionItems['dimensions']);
+
+        foreach ($dimensionItems as $key => $v) {
             if ((($this->input_type == '2d') && ($key != 'depth')) || ($this->input_type == '3d')) {
 
                 $out .= '<div id="' . $key . '_dimension" class="dimension-field">';
