@@ -1,137 +1,134 @@
-<?php namespace ProcessWire;
+<?php
+declare(strict_types=1);
 
-/**
+namespace ProcessWire;
+
+/*
  * Fieldtype ObjectDimensions that stores width, height, depth, volume(W*H*D) and area(W*H) data in the database
  *
- * @author Jürgen Kern
- * @license Licensed under MIT
+ * Created by Jürgen K.
+ * https://github.com/juergenweb
+ * File name: FieldtypeObjectDimensions.module
+ * Created: 02.02.2022
  */
 
-class FieldtypeObjectDimensions extends Fieldtype
-{
+use Exception;
 
-    public function __construct()
-    {
-        include_once(__DIR__ . '/ObjectDimensions.php');
+include_once('ObjectDimensions.php');
+
+class FieldtypeObjectDimensions extends Fieldtype {
+
+    public function __construct() {
         parent::__construct();
     }
 
-
-    public static function getModuleInfo()
-    {
+    /**
+     * @return array
+     */
+    public static function getModuleInfo():array {
         return array(
             'title' => 'Fieldtype Object Dimensions',
             'summary' => 'Fieldtype to store width, height, depth, volume and area of an object.',
-            'version' => '1.2.0',
+            'version' => '1.2.1',
             'href' => 'https://github.com/juergenweb/FieldtypeObjectDimensions',
             'icon' => 'cube',
             'installs' => 'InputfieldObjectDimensions',
             'requires' => [
                 'PHP>=7.2.0',
                 'ProcessWire>=3'
-              ],
+            ],
             'author' => 'Jürgen Kern'
         );
     }
 
-
-    public function init()
-    {
-      $this->addHookAfter('ProcessField::fieldSaved', $this, 'syncDatabase');
-      $this->addHookAfter('ProcessField::fieldSaved', $this, 'removeDepthVolumeValue');
-    }
-
-
     /**
-	 * After ProcessField::fieldSaved
-	 * We need to hook field save to check if our database field (schema)is up to date
-	 *
-	 * @param HookEvent $event
-	 */
-    public function syncDatabase(HookEvent $event) {
-      $field = $event->arguments(0);
-      //$page = $event->arguments('page');
-
-      if ($field->type instanceof FieldtypeObjectDimensions) {
-
-          //custom validations and messages for configuration input fields
-          $width = $field->input_width;
-          $digits = $field->input_digits;
-          $decimals = $field->input_decimals;
-
-          // Display a warning that the digit field was empty and therefore the default value was set
-          if (!strlen($width)) {
-              $field->warning($this_('Field for width was empty, so the default value of 100px was set.'));
-          }
-
-          // Display a warning that the digit field was empty and therefore the default value was set
-          if (!strlen($digits)) {
-              $field->warning($this_('Field for digits was empty, so the default value of 10 was set.'));
-          }
-
-          // Display a warning that the decimals field was empty and therefore the default value was set
-          if (!strlen($decimals)) {
-              $field->warning($this_('Field for decimals was empty, so the default value of 2 was set.'));
-          }
-
-          // Check if number of decimals is lower than the number of digits, because decimals are always part of the digits (otherwise we will get an MySQL error)
-          if ($decimals > $digits) {
-              throw new \Exception($this_('The number of decimals must always be lower than the number of digits.'));
-          }
-
-          //.. and now lets sync the schemas
-          $m = wire('modules')->get('FieldtypeObjectDimensions');
-
-          $result = $m->syncSchema($field);
-
-          // We just add a message if the database was actually modified
-          if ($result === true) {
-              $field->message($this_('Database schema was updated.'));
-          }
-      }
-    }
-
-    /**
-	 * After ProcessField::fieldSaved -> runs after saving the field configuration
-	 * We need to hook field save to set depth and volume to 0 in database if type was changed from 3d to 2d, because this properties do not exist on 2d
-	 *
-	 * @param HookEvent $event
-	 */
-    public function removeDepthVolumeValue(HookEvent $event) {
-      $field = $event->arguments(0);
-      if($field->input_type == '2d'){
-        $database = $this->database;
-        $table = $field->getTable();
-        // update column depth and volume to value 0
-        $query = "UPDATE `" . $database->escapeTable($table) . "` SET depth = 0, volume = 0";
-        $database->query($query);
-        return true;
-      }
-
-    }
-
-    /**
-     * @param \ProcessWire\Page $page
-     * @param \ProcessWire\Field $field
-     * @return null|\ProcessWire\_Module|\ProcessWire\Inputfield|\ProcessWire\Module
-     * @throws \ProcessWire\WirePermissionException
-     * link the core inputfield to this fieldtype
+     * @return void
      */
-    public function getInputfield(Page $page, Field $field)
-    {
+    public function init():void {
+        $this->addHookAfter('ProcessField::fieldSaved', $this, 'syncDatabase');
+        $this->addHookAfter('ProcessField::fieldSaved', $this, 'removeDepthVolumeValue');
+    }
+
+    /**
+     * After ProcessField::fieldSaved
+     * We need to hook field save to check if our database field (schema)is up-to-date
+     *
+     * @param HookEvent $event
+     * @return void
+     * @throws WireException
+     * @throws WirePermissionException
+     * @throws Exception
+     */
+    public function syncDatabase(HookEvent $event):void {
+
+        $field = $event->arguments(0);
+
+        if ($field->type instanceof FieldtypeObjectDimensions) {
+
+            //custom validations and messages for configuration input fields
+            $digits = $field->input_digits;
+            $decimals = $field->input_decimals;
+
+            // Check if number of decimals is lower than the number of digits, because decimals are always part of
+            // the digits (otherwise we will get an MySQL error)
+            if ($decimals > $digits) {
+                throw new Exception($this->_('The number of decimals must always be lower than the number of digits.'));
+            }
+
+            //… and now lets sync the schemas
+            $m = wire('modules')->get('FieldtypeObjectDimensions');
+
+            $result = $m->syncSchema($field);
+
+            // We just add a message if the database was actually modified
+            if ($result) {
+                $field->message($this->_('Database schema was updated.'));
+            }
+        }
+    }
+
+    /**
+     * After ProcessField::fieldSaved -> runs after saving the field configuration
+     * We need to hook field save to set depth and volume to 0 in database if type was changed from 3d to 2d, because these properties do not exist on 2d
+     *
+     * @param HookEvent $event
+     * @return void
+     */
+    public function removeDepthVolumeValue(HookEvent $event):void {
+
+        $field = $event->arguments(0);
+
+        if ($field->input_type == '2d') {
+            $database = $this->database;
+            $table = $field->getTable();
+            // update column depth and volume to value 0
+            $query = "UPDATE `" . $database->escapeTable($table) . "` SET depth = 0, volume = 0";
+            $database->query($query);
+        }
+    }
+
+    /**
+     * Link the core inputfield to this fieldtype
+     *
+     * @param Page $page
+     * @param Field $field
+     * @return null|_Module|Inputfield|Module
+     * @throws WirePermissionException
+     *
+     */
+    public function getInputfield(Page $page, Field $field):null|_Module|Inputfield|Module {
         return $this->modules->get('InputfieldObjectDimensions');
     }
 
-
     /**
-     * @param \ProcessWire\Page $page
-     * @param \ProcessWire\Field $field
-     * @param int|object|\ProcessWire\WireArray|string $value
-     * @return int|null|object|\ProcessWire\ObjectDimensions|\ProcessWire\WireArray|string
+     * Sanitize the value
+     *
+     * @param Page $page
+     * @param Field $field
+     * @param int|object|WireArray|string $value
+     * @return int|null|ObjectDimensions|WireArray|string
      */
-
-    public function sanitizeValue(Page $page, Field $field, $value)
-    {
+    public function sanitizeValue(Page $page, Field $field, $value): int|null|ObjectDimensions|WireArray|string {
         if (!$value instanceof ObjectDimensions) {
             $value = $this->getBlankValue($page, $field);
         }
@@ -143,86 +140,86 @@ class FieldtypeObjectDimensions extends Fieldtype
         return $value;
     }
 
-
     /**
      * Convert from DB storage to API value.
      *
      * @param Page $page
      * @param Field $field
      * @param string|int|array $value
-     * @return string|int|array|object $messagemeta
+     * @return ObjectDimensions
      *
      */
-
-    public function wakeupValue(Page $page, Field $field, $value)
-    {
+    public function wakeupValue(Page $page, Field $field, $value):ObjectDimensions {
         // instantiate a new object
         $dim = $this->getBlankValue($page, $field);
 
         // populate the dim
-        $dim->width = (float)$value['width'];
-        $dim->height = (float)$value['height'];
-        $dim->depth = (float)$value['depth'];
-        $dim->volume = (float)$value['volume'];
-        $dim->area = (float)$value['area'];
+        if($this->input_decimals > 0){
+            // output floats
+            $dim->width = (float)$value['width'];
+            $dim->height = (float)$value['height'];
+            $dim->depth = (float)$value['depth'];
+            $dim->volume = (float)$value['volume'];
+            $dim->area = (float)$value['area'];
+        } else {
+            // output integers
+            $dim->width = (int)$value['width'];
+            $dim->height = (int)$value['height'];
+            $dim->depth = (int)$value['depth'];
+            $dim->volume = (int)$value['volume'];
+            $dim->area = (int)$value['area'];
+        }
+
 
         // make unit callable
         $dim->unit = (string)$field->input_sizeunit;
         return $dim;
     }
 
-
     /**
      * Instantiate a new instance of ObjectDimensions
      *
      * @param Page $page
      * @param Field $field
-     * @return object
+     * @return ObjectDimensions
      *
      */
-    public function getBlankValue(Page $page, Field $field)
-    {
+    public function getBlankValue(Page $page, Field $field):ObjectDimensions {
         return new ObjectDimensions();
     }
 
-
     /**
-     * Calculate area from width and depth
+     * Calculate the area from width and depth
      *
      * @param int|float $width
-     * @param int|float $depth
-     * @return float|int|null
-     *
+     * @param int|float $height
+     * @return float|int
      */
-    private function calculateArea($width, $height)
-    {
-      if((is_numeric($width)) && (is_numeric($height))){
+    private function calculateArea(int|float $width, int|float $height):int|float {
         return ($width * $height);
-      }
-      return null;
     }
 
-
     /**
-     * Calculate volume from width, height and depth
+     * Calculate the volume from width, height and depth
      *
      * @param int|float $width
      * @param int|float $height
      * @param int|float $depth
+     * @param Field $field
      * @return float|int|null
-     *
      */
-    private function calculateVolume($width, $height, $depth, Field $field)
-    {
-      if($field->input_type == '3d'){
-        if((is_numeric($width)) && (is_numeric($height)) && (is_numeric($depth))){
-          return ($width * $height * $depth);
+    private function calculateVolume(
+        int|float $width,
+        int|float $height,
+        int|float $depth,
+        Field $field
+    ):float|int|null {
+        if ($field->input_type == '3d') {
+            return ($width * $height * $depth);
+        } else {
+            return null;
         }
-        return null;
-      }
-      return null;
     }
-
 
     /**
      * Convert from API to DB storage value.
@@ -231,17 +228,13 @@ class FieldtypeObjectDimensions extends Fieldtype
      * @param Field $field
      * @param string|int|array|object $value
      * @return array
-     *
+     * @throws Exception
      */
-    public function sleepValue(Page $page, Field $field, $value)
-    {
+    public function sleepValue(Page $page, Field $field, $value):array {
         // throw error if value is not of the right type
         if (!$value instanceof ObjectDimensions) {
-            throw new \Exception($this_('Expecting an instance of ObjectDimensions'));
+            throw new Exception($this->_('Expecting an instance of ObjectDimensions'));
         }
-
-        // write the values from the inputs to DB after sanitizing
-        //$depthValue = ($field->input_type == '3d') ? (float)$value->depth : null;
 
         $sleepValue = array(
             'width' => (float)$value->width,
@@ -251,30 +244,30 @@ class FieldtypeObjectDimensions extends Fieldtype
 
         // recalculate computed values if dimensions have changed or if database schema has changed
         if ($value->isChanged('width') || $value->isChanged('height') || $value->isChanged('depth')) {
-            $sleepValue['volume'] = $this->calculateVolume($value->width,$value->height,$value->depth, $field);
-            $sleepValue['area'] = $this->calculateArea($value->width,$value->height);
+            $sleepValue['volume'] = $this->calculateVolume($value->width, $value->height, $value->depth, $field);
+            $sleepValue['area'] = $this->calculateArea($value->width, $value->height);
         }
         return $sleepValue;
     }
 
-
     /**
-     * @param \ProcessWire\Field $field
-     * @return null|\ProcessWire\_Module|\ProcessWire\Inputfield|\ProcessWire\Module
-     * User is not allowed to change this fieldtype to another
+     * User is not allowed to change this fieldtype to another fieldtype
+     *
+     * @param Field $field
+     * @return null
+     *
      */
-    public function ___getCompatibleFieldtypes(Field $field)
-    {
+    public function ___getCompatibleFieldtypes(Field $field):null {
         return null;
     }
 
-
     /**
-     * @param \ProcessWire\Field $field
-     * @return null|\ProcessWire\_Module|\ProcessWire\Inputfield|\ProcessWire\Module
+     * Set the database schema for this field
+     *
+     * @param Field $field
+     * @return array
      */
-    public function getDatabaseSchema(Field $field)
-    {
+    public function getDatabaseSchema(Field $field):array {
         $schema = parent::getDatabaseSchema($field);
 
         $schema['width'] = 'DECIMAL(10, 2) NOT NULL default 0.00';
@@ -286,33 +279,33 @@ class FieldtypeObjectDimensions extends Fieldtype
         return $schema;
     }
 
-
     /**
-     * Returns the type/signature of the field we should have set in the configuration form as a MySQL type (fe decimal(10,2))
-     * @param \ProcessWire\Field $field
+     * Returns the type/signature of the field we should have set in the configuration form as a MySQL type
+     * (fe decimal(10,2))
+     * @param Field $field
      * @return string
      *
      */
-    public function getConfiguredType(Field $field):string
-    {
-        if(intval($field->input_decimals) !== 0){ //set float schema
-          return "decimal(" . intval($field->input_digits) . "," . intval($field->input_decimals) . ")"; // These should always be integers anyway
+    public function getConfiguredType(Field $field):string {
+        if (intval($field->input_decimals) !== 0) { //set float schema
+            // These should always be integers anyway
+            return "decimal(" . intval($field->input_digits) . "," . intval($field->input_decimals) . ")";
         } else {
-          //number of decimals= 0, so set integer schema
-          return "int(" . intval($field->input_digits) . ")"; // These should always be integers anyway
+            //number of decimals= 0, so set integer schema
+            return "int(" . intval($field->input_digits) . ")"; // These should always be integers anyway
         }
     }
 
-
     /**
-     * Compares the type/signature of the field we should have set in the configuration form against the schema set in the DB
-     * @param \ProcessWire\Field $field
-     * @return bool true if schemain configuration settings was changed, false if not
+     * Compares the type/signature of the field we should have set in the configuration form against
+     * the schema set in the DB
      *
+     * @param Field $field
+     * @return bool true if schema configuration settings was changed, false if not
+     *
+     * @throws Exception
      */
-
-    public function checkSchemas(Field $field):bool
-    {
+    public function checkSchemas(Field $field):bool {
         // Get the configured field signature
         $type = $this->getConfiguredType($field);
         // Compare the configured and active signatures
@@ -323,14 +316,15 @@ class FieldtypeObjectDimensions extends Fieldtype
         return false;
     }
 
-
     /**
      * Sync signature from configuration (set by values of digits and decimals) with signature in the DB
-     * @param \ProcessWire\Field $field
+     * @param Field $field
      * Alter table schema foreach dimension field in the DB
+     * @return bool
+     * @throws WireException
+     * @throws Exception
      */
-    public function syncSchema(Field $field)
-    {
+    public function syncSchema(Field $field):bool {
         if ($this->checkSchemas($field)) {
             $database = $this->database;
             $table = $field->getTable();
@@ -346,28 +340,27 @@ class FieldtypeObjectDimensions extends Fieldtype
         return false;
     }
 
-
     /**
      * Returns the active type/signature of the field
-     * @param \ProcessWire\Field $field
+     * @param Field $field
      * @return string
+     * @throws WireException
+     * @throws Exception
      */
-    public function getActiveType(Field $field): string
-    {
+    public function getActiveType(Field $field):string {
         $database = $this->database;
         $table = $field->getTable();
 
-        // We could use INFORMATION_SCHEMA too, but due it's (default) slowness nvm
+        // We could use INFORMATION_SCHEMA too, but due to its (default) slowness nvm
         // check only one dimension (in this case width) to get the old schema of the dimension fields
         $query = "SHOW FIELDS FROM `" . $database->escapeTable($table) . "` LIKE 'width'";
         $result = $database->query($query);
 
         if (!$result->rowCount()) {
-            throw new \Exception($this_("Cannot determine the type of the field"));
+            throw new Exception($this->_("Cannot determine the type of the field"));
         }
 
-        $type = $result->fetchColumn(1); // Type
-                return $type;
+        return $result->fetchColumn(1); // Type
     }
 
 }
