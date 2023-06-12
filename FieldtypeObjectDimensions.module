@@ -128,7 +128,7 @@ class FieldtypeObjectDimensions extends Fieldtype {
      * @param int|object|WireArray|string $value
      * @return int|null|ObjectDimensions|WireArray|string
      */
-    public function sanitizeValue(Page $page, Field $field, $value): int|null|ObjectDimensions|WireArray|string {
+    public function sanitizeValue(Page $page, Field $field, $value):int|null|ObjectDimensions|WireArray|string {
         if (!$value instanceof ObjectDimensions) {
             $value = $this->getBlankValue($page, $field);
         }
@@ -154,22 +154,11 @@ class FieldtypeObjectDimensions extends Fieldtype {
         $dim = $this->getBlankValue($page, $field);
 
         // populate the dim
-        if($this->input_decimals > 0){
-            // output floats
-            $dim->width = (float)$value['width'];
-            $dim->height = (float)$value['height'];
-            $dim->depth = (float)$value['depth'];
-            $dim->volume = (float)$value['volume'];
-            $dim->area = (float)$value['area'];
-        } else {
-            // output integers
-            $dim->width = (int)$value['width'];
-            $dim->height = (int)$value['height'];
-            $dim->depth = (int)$value['depth'];
-            $dim->volume = (int)$value['volume'];
-            $dim->area = (int)$value['area'];
-        }
-
+        $dim->width = (float)$value['width'];
+        $dim->height = (float)$value['height'];
+        $dim->depth = (float)$value['depth'];
+        $dim->volume = (float)$value['volume'];
+        $dim->area = (float)$value['area'];
 
         // make unit callable
         $dim->unit = (string)$field->input_sizeunit;
@@ -197,10 +186,12 @@ class FieldtypeObjectDimensions extends Fieldtype {
      */
     private function calculateArea(int|float|null $width, int|float|null $height):int|float|null {
         // check if null value is present
-        if(is_null($width))
+        if (is_null($width)) {
             return null;
-        if(is_null($height))
+        }
+        if (is_null($height)) {
             return null;
+        }
         return ($width * $height);
     }
 
@@ -220,12 +211,15 @@ class FieldtypeObjectDimensions extends Fieldtype {
         Field $field
     ):float|int|null {
         // check if null value is present
-        if(is_null($width))
+        if (is_null($width)) {
             return null;
-        if(is_null($height))
+        }
+        if (is_null($height)) {
             return null;
-        if(is_null($depth))
+        }
+        if (is_null($depth)) {
             return null;
+        }
 
         if ($field->input_type == '3d') {
 
@@ -261,6 +255,7 @@ class FieldtypeObjectDimensions extends Fieldtype {
             $sleepValue['volume'] = $this->calculateVolume($value->width, $value->height, $value->depth, $field);
             $sleepValue['area'] = $this->calculateArea($value->width, $value->height);
         }
+        bd($sleepValue);
         return $sleepValue;
     }
 
