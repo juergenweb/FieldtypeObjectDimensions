@@ -1,79 +1,114 @@
 <?php
+declare(strict_types=1);
 
 namespace ProcessWire;
+
 /**
  * Helper WireData Class to hold a dimension object
  *
+ * Created by Jürgen K.
+ * https://github.com/juergenweb
+ * File name: FieldtypeObjectDimensions.module
+ * Created: 02.02.2022
  */
 class ObjectDimensions extends WireData {
 
     public function __construct() {
-      parent::__construct();
+        parent::__construct();
 
-      try {
         $this->set('width', null);
         $this->set('height', null);
         $this->set('depth', null);
         $this->set('volume', null);
         $this->set('area', null);
         $this->set('unit', null);
-      }
-      catch (WireException $e) {
-      }
-    }
-
-    public function set($key, $value) {
-        return parent::set($key, $value);
-    }
-
-    public function get($key) {
-        return parent::get($key);
     }
 
     /**
-    * Method to render all dimensions in a string like 25cm * 10cm * 25cm
-    * @param string $multiplicator (the sign between the values)
-    * @param bool $addUnit (adds fe cm after the value) true|false
-    * @return string
-    */
-    public function renderDimensions(string $multiplicator = ' * ', bool $addUnit = true): string
-    {
-      $unit = $addUnit ? $this->unit : '';
-      $width = $this->width ? $this->width.$unit : '';
-      $height = $this->height ? $this->height.$unit : '';
-      $depth = $this->depth ? $this->depth.$unit : '';
-      $dimensions = array_filter([$width, $height, $depth]);
-      return (count($dimensions)) ? implode($multiplicator, $dimensions) : '';
+     * Render a dimension including the unit (optional with the label)
+     * Output the dimension only if it is higher than 0, otherwise output an empty string
+     * @param string $dimension
+     * @param bool $label
+     * @return string
+     */
+    public function renderSingleDimension(string $dimension, bool $label = false):string {
+        $label = $label ? InputfieldObjectDimensions::getLabels()[$dimension] . ': ' : '';
+        $unit = ($this->unit) ? ' ' . $this->unit : '';
+        return ($this->{$dimension}) ? $label . $this->{$dimension} . $unit : '';
     }
-
 
     /**
-    * Method to render the volume fe 25cm³
-    * @param bool $addUnit (adds fe cm³ after the value) true|false
-    * @return string
-    */
-    public function renderVolume(): string
-    {
-      $unit = $this->unit.'<sup>3</sup>';
-      return ($this->volume > 0) ? $this->volume.$unit : '';
+     * Render the width including unit and (optional) the label
+     * @param bool $label
+     * @return string
+     */
+    public function renderWidth(bool $label = false):string {
+        return $this->renderSingleDimension('width', $label);
     }
-
 
     /**
-    * Method to render the area fe 25cm²
-    * @param bool $addUnit (adds fe cm² after the value) true|false
-    * @return string
-    */
-    public function renderArea(bool $addUnit = true): string
-    {
-      $unit = $this->unit.'<sup>2</sup>';
-      return ($this->area > 0) ? $this->area.$unit : '';
+     * Render the height including unit and (optional) the label
+     * @param bool $label
+     * @return string
+     */
+    public function renderHeight(bool $label = false):string {
+        return $this->renderSingleDimension('height', $label);
     }
 
+    /**
+     * Render the depth including unit and (optional) the label
+     * @param bool $label
+     * @return string
+     */
+    public function renderDepth(bool $label = false):string {
+        return $this->renderSingleDimension('depth', $label);
+    }
 
-    public function __toString()
-    {
-      return $this->renderDimensions();
+    /**
+     * Render all dimensions as a string (fe 25cm * 10cm * 25cm)
+     * @param bool $label
+     * @param string $multiplicator - the sign for the multiplication
+     * @return string
+     */
+    public function renderDimensions(bool $label = false, string $multiplicator = ' * '):string {
+        $label = $label ? InputfieldObjectDimensions::getLabels()['dimensions']. ': ' : '';
+        $dimensions = array_filter([
+            $this->renderWidth(),
+            $this->renderDepth(),
+            $this->renderHeight()
+        ]);
+        return $dimensions ? $label . implode($multiplicator, $dimensions) : '';
+    }
+
+    /**
+     * Render the volume (fe 25 cm³ or Volume: 25 cm³)
+     *
+     * @param bool $label
+     * @return string
+     */
+    public function renderVolume(bool $label = false):string {
+        $label = $label ? InputfieldObjectDimensions::getLabels()['volume']. ': ' : '';
+        $unit = $this->unit ? ' ' . $this->unit . '<sup>3</sup>' : '';
+        return ($this->volume > 0) ? $label . $this->volume . $unit : '';
+    }
+
+    /**
+     * Render the area (fe 25 cm² or Area: 25 cm²)
+     *
+     * @param bool $label
+     * @return string
+     */
+    public function renderArea(bool $label = false):string {
+        $label = $label ? InputfieldObjectDimensions::getLabels()['area']. ': ' : '';
+        $unit = ' ' . $this->unit . '<sup>2</sup>';
+        return ($this->area > 0) ? $label . $this->area . $unit : '';
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString():string {
+        return $this->renderDimensions();
     }
 
 }
