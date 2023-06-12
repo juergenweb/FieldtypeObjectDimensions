@@ -16,7 +16,7 @@ This inputfield/fieldtype let you enter 3 dimensions (width/height/depth) of an 
 You can select if you want to display inputs for 2 or 3 dimensions.
 
 ### 2 dimensions inputfield:
-![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/images/blob/master/objectdimensions1.png?raw=true)
+![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/images/objectdimensions1.png?raw=true)
 
 ### 3 dimensions inputfield:
 ![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/objectdimensions2.png?raw=true)
