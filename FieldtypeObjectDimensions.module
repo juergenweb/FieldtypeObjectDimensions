@@ -191,11 +191,16 @@ class FieldtypeObjectDimensions extends Fieldtype {
     /**
      * Calculate the area from width and depth
      *
-     * @param int|float $width
-     * @param int|float $height
-     * @return float|int
+     * @param int|float|null $width
+     * @param int|float|null $height
+     * @return float|int|null
      */
-    private function calculateArea(int|float $width, int|float $height):int|float {
+    private function calculateArea(int|float|null $width, int|float|null $height):int|float|null {
+        // check if null value is present
+        if(is_null($width))
+            return null;
+        if(is_null($height))
+            return null;
         return ($width * $height);
     }
 
@@ -209,12 +214,21 @@ class FieldtypeObjectDimensions extends Fieldtype {
      * @return float|int|null
      */
     private function calculateVolume(
-        int|float $width,
-        int|float $height,
-        int|float $depth,
+        int|float|null $width,
+        int|float|null $height,
+        int|float|null $depth,
         Field $field
     ):float|int|null {
+        // check if null value is present
+        if(is_null($width))
+            return null;
+        if(is_null($height))
+            return null;
+        if(is_null($depth))
+            return null;
+
         if ($field->input_type == '3d') {
+
             return ($width * $height * $depth);
         } else {
             return null;
