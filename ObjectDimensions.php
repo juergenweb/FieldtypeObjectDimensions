@@ -49,7 +49,7 @@ class ObjectDimensions extends WireData {
      * @param string $multiplicationSign
      * @return string
      */
-    public function renderAllDimensions(string $multiplicationSign = '*'):string {
+    public function renderAll(string $multiplicationSign = '*'):string {
 
         $allDimensions = [
             $this->renderDimensions(true, $multiplicationSign),
@@ -72,7 +72,7 @@ class ObjectDimensions extends WireData {
      * @return string
      */
     public function __toString():string {
-        return $this->renderAllDimensions();
+        return $this->renderAll();
     }
 
 }
