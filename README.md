@@ -6,14 +6,14 @@ This new fieldtype offers more possibilities than the old one from SOMA.
 
 **The main differences**<br />
 You can select if 2 dimensions (length and width) or 3 dimension (length, width and height) should be displayed. 2 dimensions can be used for photos, wallpapers and so on. 3 dimensions for other objects.
-You can enter the dimension values as float numbers or as integers.
+You can enter the dimension values as float numbers or as integers (depending on the number of decimals set in the field configuration)
 
 The code uses also some parts and ideas from the Fieldtype Decimals ([https://modules.processwire.com/modules/fieldtype-decimal/](https://modules.processwire.com/modules/fieldtype-decimal/)) - especially methods for altering the database schema.
 
 ## What it does
 
 This inputfield/fieldtype let you enter 2 or 3 dimension values of an object (fe a product) and calculates and stores the volume and the area.
-All the values are fully searchable by its values, so if you create a filter function you can grab all products with fullfill certain dimensions (fe show me all products where the length is lower than 100 cm and the width is lower than 30 cm).
+All of the dimension values are fully searchable, so if you create a filter function you can grab all products with fullfill certain dimensions (fe show me all products where the length is lower than 100 cm and the width is lower than 30 cm).
 
 ### 2 dimensions inputfield:
 ![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/images/objectdimensions1.png?raw=true)
@@ -21,37 +21,56 @@ All the values are fully searchable by its values, so if you create a filter fun
 ### 3 dimensions inputfield:
 ![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/images/objectdimensions2.png?raw=true)
 
-### Raw output of the values in templates
+### Output values of each dimension on the frontend
 
-There's a property for each dimension
+Afterwards you will find the properties on how to output the dimension values on the frontend. Please replace "fieldname" with the name of your input field.
 
-```
-echo $page->fieldname->lenght;
-echo $page->fieldname->width;
-echo $page->fieldname->height;
-```
-This values are the raw values, which means this are the values as they come from the database (only float or integer values). They do not contain the unit.
+#### Default values
 
-There's also support for a computed value of the volume (LWH) and the area (LW). This will get stored additionally
-to the database and updated every time a dimension value changes. It can also be used in selectors for querying  (fe list all products where the volume is larger than....)
-
-You can get the computed values in templates by using
+There's a property for each dimension, which outputs the dimension including the unit (fe cm) as set inside the field configuration. So this properties always return a string.
 
 ```
-echo $page->fieldname->volume;
-echo $page->fieldname->area;
+echo $page->fieldname->lenght; // outputs fe 2 cm
+echo $page->fieldname->width; // outputs fe 3 cm
+echo $page->fieldname->height; // outputs fe 2 cm
+echo $page->fieldname->area; // outputs fe 6 cm²
+echo $page->fieldname->volume; // outputs fe 12 cm³
 ```
-This values are also raw values which means they do not have a unit and are of type integer or float.
-For outputting the selected unit (fe. cm) on the frontend you can use
+
+#### Output default value including the unit
+
+If you want to output the label of each dimension in front of the value too, you have to use the following properties:
 
 ```
-echo $page->fieldname->unit;
+echo $page->fieldname->lenghtLabel; // outputs fe Length: 2 cm
+echo $page->fieldname->widthLabel; // outputs fe Width: 3 cm
+echo $page->fieldname->heightLabel; // outputs fe Height: 2 cm
+echo $page->fieldname->areaLabel; // outputs fe Area: 6 cm²
+echo $page->fieldname->volumeLabel; // outputs fe Volume: 12 cm³
+```
+As you can see, you only have to add the word "Label" after the dimension name to output the dimension including the label. 
+
+#### Output raw values as stored inside the database
+If you want to get the raw values as they are stored inside the database, you have to call the properties like this:
+
+```
+echo $page->fieldname->lenghtUnformatted; // outputs 2
+echo $page->fieldname->widthUnformatted; // outputs fe 3
+echo $page->fieldname->heightUnformatted; // outputs fe 2
+echo $page->fieldname->areaUnformatted; // outputs fe 6
+echo $page->fieldname->volumeUnformatted; // outputs fe 12
+```
+As you can see, the output will be only a number of type int or float and not a string
+
+#### Output the unit 
+If you need to output the unit (fe cm) on the frontend, then use the following call:
+
+```
+echo $page->fieldname->unit; // outputs fe cm
 ```
 This outputs the unit as a string (fe cm).
 
-### Formatted output of the values in templates
-
-If you want to use formatted values (values including the unit and optionally the label), you can use the following render methods.
+### Additional render methods
 
 #### renderDimensions()
 This will render a formatted string containing all dimensions.
@@ -62,10 +81,10 @@ echo $page->fieldname->renderDimensions();
 will produce fe the following output:
 
 ```
-0.12cm (L) * 0.35cm (W) * 3.75cm (H)
+0.12 cm (L) * 0.35 cm (W) * 3.75 cm (H)
 ```
 
-For more customization you can enter 2 additional parameters inside the brackets.
+For further customization you can enter 2 additional parameters inside the brackets:
 
 - The first one for displaying the label (default is false).
 - The second parameter is for the multiplication sign (default is "*"), 
@@ -76,83 +95,42 @@ echo $page->fieldname->renderDimensions(true, 'x');
 will produce fe the following output:
 
 ```
-Dimensions: 0.12cm (L) x 0.35cm (W) x 3.75cm (H)
+Dimensions: 0.12 cm (L) x 0.35 cm (W) x 3.75 cm (H)
 ```
+As you can see the label will be displayed in front of the values and the multiplication sign has changed from "** to "x".
 
-#### renderVolume()
-Render method for the volume (value including unit):
-
-```
-echo $page->fieldname->renderVolume();
-```
-will output fe
-```
-12,75cm³
-```
-
-Entering true as parameter outputs the label too.
-
-```
-echo $page->fieldname->renderVolume(true);
-```
-will output fe
-```
-Volume: 12,75cm³
-```
-
-#### renderArea()
-Render method for the area (value including unit):
-
-```
-echo $page->fieldname->renderArea();
-```
-
-This will output fe:
-```
-8,30cm²
-```
-
-Entering true as parameter outputs the label too.
-
-```
-echo $page->fieldname->renderArea(true);
-```
-will output fe
-```
-Area: 12,75cm³
-```
-
-#### renderAllDimensions()
+#### renderAll()
 This will render a combined formatted string containing all dimensions, area and volume as an unordered list.
 
 ```
-echo $page->fieldname->renderAllDimensions(); 
+echo $page->fieldname->renderAll();
 ```
-will produce fe the following output:
-
+will output fe
 ```
-0.12cm (L) * 0.35cm (W) * 3.75cm (H)
-8,30cm²
-12,75cm³
-```
-
-For more customization you can enter 2 additional parameters inside the brackets.
-
-- The first one for displaying the label (default is false).
-- The second parameter is for the multiplication sign (default is "*"), 
-
-```
-echo $page->fieldname->renderDimensions(true, 'x');
-```
-will produce fe the following output:
-
-```
-Dimensions: 0.12cm (L) * 0.35cm (W) * 3.75cm (H)
-Area: 8,30cm²
-Volume: 12,75cm³
+Dimensions: 3 cm (L) x 4 cm (W) x 2 cm (H)
+Area: 12 cm²
+Volume: 24 cm²
 ```
 
-### Use in selectors strings
+You can get the same result with this call, which is equal to the _toString method():
+
+```
+echo $page->fieldname;
+```
+
+The renderAll() method supports the multiplication sign as parameter (like the renderDimensions() method)  inside the parenthesis.
+
+```
+echo $page->fieldname->renderAll('x');
+```
+
+This replaces the default "*" with the "x" in this case.
+
+
+
+### Find pages by using selectors
+
+As written in the introduction all the dimensions are fully searchable. Here are 2 examples on how to query.
 
 The dimensions can be used in selectors like:
 
@@ -171,7 +149,6 @@ or
 There are several configuration options for this fieldtype in the backend.
 
 - set type (2 or 3 dimensional)
-- set width attribute for the inputfield in px (default is 100px)
 - set size unit as suffix after each inputfield (default is cm)
 - set max number of digits that can be entered in each field (default is 10)
 - set max number of decimals (default is 2)
@@ -179,7 +156,7 @@ There are several configuration options for this fieldtype in the backend.
 
 Some of the configurations settings can also be changed separately on per template base too.
 
-If number of decimals will be changed, the database schema for each dimension column will also change.
+If the number of decimals will be changed, the database schema for each dimension column will also change (float/integer).
 
 For example:
 If the schema for each dimension field in the DB is f.e. decimal(10,2) and you will set the number of digits in the configuration to 12 and the number of decimals to 1, then the schema in the DB will also change to decimal(12,1) after saving the inputfield.
