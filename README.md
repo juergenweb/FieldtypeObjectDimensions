@@ -2,14 +2,20 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![ProcessWire 3](https://img.shields.io/badge/ProcessWire-3.x-orange.svg)](https://github.com/processwire/processwire)
 
-An input field and fieldtype for the ProcessWire CMS to enter dimensions (length, width and height) of an object.
+An input field and fieldtype for the ProcessWire CMS to enter dimensions (length, width and height) of an object and to calculate area and volume.
 
 This fieldtype was inspired by the amazing fieldtype "Fieldtype Dimensions" from SOMA ([https://modules.processwire.com/modules/fieldtype-dimension/](https://modules.processwire.com/modules/fieldtype-dimension/)). This fieldtype was introduced in 2013 - so its time for a relaunch.
 This new fieldtype offers more possibilities than the old one from SOMA.
 
-**The main differences**<br />
-You can select if 2 dimensions (length and width) or 3 dimension (length, width and height) should be displayed. 2 dimensions can be used for photos, wallpapers and so on. 3 dimensions for other objects.
-You can enter the dimension values as float numbers or as integers (depending on the number of decimals set in the field configuration)
+## Requirements
+* PHP>=8.0.0
+* ProcessWire>=3
+
+**Main differences to the old one**
+* You can select if 2 dimensions (length and width) or 3 dimension (length, width and height) should be displayed. 2 dimensions can be used for photos, wallpapers and so on. 3 dimensions for other objects.
+* You can enter the dimension values as float numbers or as integers (depending on the number of decimals set in the field configuration)
+* Various output formation for the values (raw database value, value including unit, value including unit and label
+* Set the unit to your preference (cm, mm, inch,...)
 
 The code uses also some parts and ideas from the Fieldtype Decimals ([https://modules.processwire.com/modules/fieldtype-decimal/](https://modules.processwire.com/modules/fieldtype-decimal/)) - especially methods for altering the database schema.
 
