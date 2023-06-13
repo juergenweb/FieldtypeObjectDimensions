@@ -4,7 +4,381 @@ declare(strict_types=1);
 namespace ProcessWire;
 
 /*
- * Fieldtype ObjectDimensions that stores width, height, depth, volume(W*H*D) and area(W*H) data in the database
+ * Fieldtype ObjectDimensions tha<?php
+declare(strict_types=1);
+
+namespace ProcessWire;
+
+/*
+ * Fieldtype ObjectDimensions that stores length, width, height, volume(L*W*H) and area(L*W) data in the database
+ *
+ * Created by Jürgen K.
+ * https://github.com/juergenweb
+ * File name: FieldtypeObjectDimensions.module
+ * Created: 02.02.2022
+ */
+
+use Exception;
+
+include_once('ObjectDimensions.php');
+
+class FieldtypeObjectDimensions extends Fieldtype {
+
+    public function __construct() {
+        parent::__construct();
+    }
+
+    /**
+     * @return array
+     */
+    public static function getModuleInfo():array {
+        return array(
+            'title' => 'Fieldtype Object Dimensions',
+            'summary' => 'Fieldtype to store length, width, height, volume and area of an object.',
+            'version' => '1.2.1',
+            'href' => 'https://github.com/juergenweb/FieldtypeObjectDimensions',
+            'icon' => 'cube',
+            'installs' => 'InputfieldObjectDimensions',
+            'requires' => [
+                'PHP>=7.2.0',
+                'ProcessWire>=3'
+            ],
+            'author' => 'Jürgen Kern'
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function init():void {
+        $this->addHookAfter('ProcessField::fieldSaved', $this, 'syncDatabase');
+        $this->addHookAfter('ProcessField::fieldSaved', $this, 'removeWidthVolumeValue');
+    }
+
+    /**
+     * After ProcessField::fieldSaved
+     * We need to hook field save to check if our database field (schema)is up-to-date
+     *
+     * @param HookEvent $event
+     * @return void
+     * @throws WireException
+     * @throws WirePermissionException
+     * @throws Exception
+     */
+    public function syncDatabase(HookEvent $event):void {
+
+        $field = $event->arguments(0);
+
+        if ($field->type instanceof FieldtypeObjectDimensions) {
+
+            //custom validations and messages for configuration input fields
+            $digits = $field->input_digits;
+            $decimals = $field->input_decimals;
+
+            // Check if number of decimals is lower than the number of digits, because decimals are always part of
+            // the digits (otherwise we will get an MySQL error)
+            if ($decimals > $digits) {
+                throw new Exception($this->_('The number of decimals must always be lower than the number of digits.'));
+            }
+
+            //… and now lets sync the schemas
+            $m = wire('modules')->get('FieldtypeObjectDimensions');
+
+            $result = $m->syncSchema($field);
+
+            // We just add a message if the database was actually modified
+            if ($result) {
+                $field->message($this->_('Database schema was updated.'));
+            }
+        }
+    }
+
+    /**
+     * After ProcessField::fieldSaved -> runs after saving the field configuration
+     * We need to hook field save to set width and volume to 0 in database if type was changed from 3d to 2d, because these properties do not exist on 2d
+     *
+     * @param HookEvent $event
+     * @return void
+     */
+    public function removeWidthVolumeValue(HookEvent $event):void {
+
+        $field = $event->arguments(0);
+
+        if ($field->input_type == '2d') {
+            $database = $this->database;
+            $table = $field->getTable();
+            // update column width and volume to value 0
+            $query = "UPDATE `" . $database->escapeTable($table) . "` SET width = 0, volume = 0";
+            $database->query($query);
+        }
+    }
+
+    /**
+     * Link the core inputfield to this fieldtype
+     *
+     * @param Page $page
+     * @param Field $field
+     * @return null|_Module|Inputfield|Module
+     * @throws WirePermissionException
+     *
+     */
+    public function getInputfield(Page $page, Field $field):null|_Module|Inputfield|Module {
+        return $this->modules->get('InputfieldObjectDimensions');
+    }
+
+    /**
+     * Sanitize the value
+     *
+     * @param Page $page
+     * @param Field $field
+     * @param int|object|WireArray|string $value
+     * @return int|null|ObjectDimensions|WireArray|string
+     */
+    public function sanitizeValue(Page $page, Field $field, $value):int|null|ObjectDimensions|WireArray|string {
+        if (!$value instanceof ObjectDimensions) {
+            $value = $this->getBlankValue($page, $field);
+        }
+        // Track changes on dimension values
+        if ($value->isChanged('length') || $value->isChanged('width') || $value->isChanged('height')) {
+            $page->trackChange($field->name);
+        }
+
+        return $value;
+    }
+
+    /**
+     * Convert from DB storage to API value.
+     *
+     * @param Page $page
+     * @param Field $field
+     * @param string|int|array $value
+     * @return ObjectDimensions
+     *
+     */
+    public function wakeupValue(Page $page, Field $field, $value):ObjectDimensions {
+        // instantiate a new object
+        $dim = $this->getBlankValue($page, $field);
+
+        // populate the dim
+        $dim->length = (float)$value['length'];
+        $dim->width = (float)$value['width'];
+        $dim->height = (float)$value['height'];
+        $dim->volume = (float)$value['volume'];
+        $dim->area = (float)$value['area'];
+
+        // make unit callable
+        $dim->unit = (string)$field->input_sizeunit;
+        return $dim;
+    }
+
+    /**
+     * Instantiate a new instance of ObjectDimensions
+     *
+     * @param Page $page
+     * @param Field $field
+     * @return ObjectDimensions
+     *
+     */
+    public function getBlankValue(Page $page, Field $field):ObjectDimensions {
+        return new ObjectDimensions();
+    }
+
+    /**
+     * Calculate the area from width and length
+     *
+     * @param int|float|null $length
+     * @param int|float|null $width
+     * @return float|int|null
+     */
+    private function calculateArea(int|float|null $length, int|float|null $width):int|float|null {
+        // check if null value is present
+        if (is_null($length)) {
+            return null;
+        }
+        if (is_null($width)) {
+            return null;
+        }
+
+        return ($width * $length);
+    }
+
+    /**
+     * Calculate the volume from width, height and length
+     *
+     * @param int|float $length
+     * @param int|float $width
+     * @param int|float $height
+     * @param Field $field
+     * @return float|int|null
+     */
+    private function calculateVolume(
+        int|float|null $length,
+        int|float|null $width,
+        int|float|null $height,
+        Field $field
+    ):float|int|null {
+        // check if null value is present
+        if (is_null($length)) {
+            return null;
+        }
+        if (is_null($width)) {
+            return null;
+        }
+        if (is_null($height)) {
+            return null;
+        }
+
+        if ($field->input_type == '3d') {
+            return ($length * $width * $height);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Convert from API to DB storage value.
+     *
+     * @param Page $page
+     * @param Field $field
+     * @param string|int|array|object $value
+     * @return array
+     * @throws Exception
+     */
+    public function sleepValue(Page $page, Field $field, $value):array {
+        // throw error if value is not of the right type
+        if (!$value instanceof ObjectDimensions) {
+            throw new Exception($this->_('Expecting an instance of ObjectDimensions'));
+        }
+
+        $sleepValue = array(
+            'length' => (float)$value->length,
+            'width' =>  (float)$value->width,
+            'height' => (float)$value->height,
+        );
+
+        // recalculate computed values if dimensions have changed or if database schema has changed
+        if ($value->isChanged('width') || $value->isChanged('height') || $value->isChanged('length')) {
+            $sleepValue['volume'] = $this->calculateVolume($sleepValue['length'], $sleepValue['width'], $sleepValue['height'], $field);
+            $sleepValue['area'] = $this->calculateArea($sleepValue['length'], $sleepValue['width']);
+        }
+        return $sleepValue;
+    }
+
+    /**
+     * User is not allowed to change this fieldtype to another fieldtype
+     *
+     * @param Field $field
+     * @return null
+     *
+     */
+    public function ___getCompatibleFieldtypes(Field $field):null {
+        return null;
+    }
+
+    /**
+     * Set the database schema for this field
+     *
+     * @param Field $field
+     * @return array
+     */
+    public function getDatabaseSchema(Field $field):array {
+
+        $schema = parent::getDatabaseSchema($field);
+        $schema['length'] = 'DECIMAL(10, 2) NOT NULL default 0.00';
+        $schema['width'] = 'DECIMAL(10, 2) NOT NULL default 0.00';
+        $schema['height'] = 'DECIMAL(10, 2) NOT NULL default 0.00';
+        $schema['volume'] = 'DECIMAL(10, 2) NOT NULL default 0.00';
+        $schema['area'] = 'DECIMAL(10, 2) NOT NULL default 0.00';
+
+        return $schema;
+    }
+
+    /**
+     * Returns the type/signature of the field we should have set in the configuration form as a MySQL type
+     * (fe decimal(10,2))
+     * @param Field $field
+     * @return string
+     *
+     */
+    public function getConfiguredType(Field $field):string {
+        if (intval($field->input_decimals) !== 0) { //set float schema
+            // These should always be integers anyway
+            return "decimal(" . intval($field->input_digits) . "," . intval($field->input_decimals) . ")";
+        } else {
+            //number of decimals= 0, so set integer schema
+            return "int(" . intval($field->input_digits) . ")"; // These should always be integers anyway
+        }
+    }
+
+    /**
+     * Compares the type/signature of the field we should have set in the configuration form against
+     * the schema set in the DB
+     *
+     * @param Field $field
+     * @return bool true if schema configuration settings was changed, false if not
+     *
+     * @throws Exception
+     */
+    public function checkSchemas(Field $field):bool {
+        // Get the configured field signature
+        $type = $this->getConfiguredType($field);
+        // Compare the configured and active signatures
+        if (strcasecmp($type, $this->getActiveType($field)) !== 0) {
+
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Sync signature from configuration (set by values of digits and decimals) with signature in the DB
+     * @param Field $field
+     * Alter table schema foreach dimension field in the DB
+     * @return bool
+     * @throws WireException
+     * @throws Exception
+     */
+    public function syncSchema(Field $field):bool {
+        if ($this->checkSchemas($field)) {
+            $database = $this->database;
+            $table = $field->getTable();
+
+            // alter all dimension field columns to the new type
+            $columns = ['length', 'width', 'height', 'volume', 'area'];
+            foreach ($columns as $col) {
+                $query = "ALTER TABLE `" . $database->escapeTable($table) . "` MODIFY $col {$this->getConfiguredType($field) } NOT NULL";
+                $database->query($query);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Returns the active type/signature of the field
+     * @param Field $field
+     * @return string
+     * @throws WireException
+     * @throws Exception
+     */
+    public function getActiveType(Field $field):string {
+        $database = $this->database;
+        $table = $field->getTable();
+
+        // We could use INFORMATION_SCHEMA too, but due to its (default) slowness nvm
+        // check only one dimension (in this case width) to get the old schema of the dimension fields
+        $query = "SHOW FIELDS FROM `" . $database->escapeTable($table) . "` LIKE 'width'";
+        $result = $database->query($query);
+
+        if (!$result->rowCount()) {
+            throw new Exception($this->_("Cannot determine the type of the field"));
+        }
+
+        return $result->fetchColumn(1); // Type
+    }
+
+}
+t stores width, height, depth, volume(W*H*D) and area(W*H) data in the database
  *
  * Created by Jürgen K.
  * https://github.com/juergenweb
