@@ -49,7 +49,7 @@ echo $page->fieldname->area; // outputs fe 6 cm²
 echo $page->fieldname->volume; // outputs fe 12 cm³
 ```
 
-#### Output default value including the unit
+#### Output default value including the label
 
 If you want to output the label of each dimension in front of the value too, you have to use the following properties:
 
