@@ -23,26 +23,6 @@ Type,Typ,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.modu
 "Show hint","Hinweis anzeigen",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,d9bc6f4826dccbd3d948c5e26e146374
 "Show hint for max number of digits and decimals below input fields.","Hinweis für die maximale Anzahl von Stellen und Dezimalstellen unter den Eingabefeldern anzeigen.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,e61f6814baef3ccc60222eb3057893f9
 "If checked a hint text will be displayed under the input fields to inform the user how much digits and decimals are allowed.","Wenn diese Option aktiviert ist, wird unter den Eingabefeldern ein Hinweistext angezeigt, der den Benutzer darüber informiert, wie viele Ziffern und Dezimalstellen zulässig sind.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,19512304bdbac9a24ccf7407b4d5a035
-"API Notes",API-Hinweise,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,87f83506dee160df49b8d3ca189246af
-"The following can be used in your templates:","Folgendes kann in Ihren Vorlagen verwendet werden:",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,9fddbdf1f74569d58a27de194811a1bf
-"Raw values","Rohe Daten",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,7eb7d7c209584cef5ccf97805a03b78f
-"Raw values contain only the value without unit or label.","Rohdaten enthalten nur den Wert ohne Einheit oder Bezeichnung.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,c0a6096e67da5623a47fa3c717f986b1
-"Output of a float or integer number.","Ausgabe einer Float- oder Integer-Zahl.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,9fd71a58f29ab786dfe18396b1a1a61a
-"Output the width (fe 3)","Ausgabe der Breite (z.B. 3)",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,3d9a70e3b3b0389bcb826a11b759802b
-"Output the height (fe 3)","Ausgabe der Höhe (z.B. 3)",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,89b757f78313d6cc83fcc3fd69d31340
-"Output the length (fe 2)","Ausgabe der Länge (z.B. 2)",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,ad984f76ef156bb8dc0aff699a76ddc3
-"Output the volume (fe 18)","Ausgabe des Volumens (z.B. 18)",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,ce90bfd7a8317d79d25ae8f0c71bf037
-"Output the area (fe 6","Ausgabe der Fläche (z.B. 6)",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,d1eab958d630202a74ed68d718d80f38
-"Output the unit (fe cm)","Ausgabe der Einheit (z.B. cm)",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,bbdb1d4b4ea76637224cb5978fbba48a
-"Formatted values","Formatierte Daten",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,788e8eaa8a378910b3faa6c75e066478
-"Formatted values include the unit and optional the label.","Formatierte Daten enthalten und Einheit und optinal die Bezeichnung",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,3571a9a1dfc2dd4da6fcf43aaa509526
-"Using true as parameter outputs the label too.","Wenn als Parameter innerhalb der Klammer true angegeben wird, dann wird die Bezeichnung zusätzlich angezeigt.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,7a8f586e487a260e1e91cd2167339056
-"Output the formatted width (fe Width: 3 cm).","Gibt die formattierte Breite aus (z.B. 3 cm).",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,254495a4f0d826f53be899ee53a2b646
-"Output the formatted height (fe Height: 3 cm).","Gibt die formattierte Höhe aus (z.B. 3 cm).",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,8668ec7273901a14aa5439180c7a6f5c
-"Output the formatted length (fe Length: 2 cm).","Gibt die formattierte Länge aus (z.B. 2 cm).",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,36935c3927340d02a56f6e7d51a20537
-"Output the formatted area (fe 6 cm²)","Gibt die formattierte Fläche aus (z.B. 6 cm²).",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,5815cb70506c20dd5da3006738a5c967
-"Output the formatted volume (fe 18 cm³)","Gibt das formattierte Volumen aus (z.B. 18 cm³)",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,8f7f5f0b380d51666ed8af6913265bbc
-"Output the formatted dimension (fe Dimensions: 25 cm x 10 cm x 25 cm)","Gibt die formattierten Abmessungen aus (z.B. 25 cm x 10 cm x 25 cm)",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,0ec800a1432f3b89797e5c6b5d27e3f3
 Length,Länge,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,ba2a9c6c8c77e03f83ef8bf543612275
 Width,Breite,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,32954654ac8fe66a1d09be19001de2d4
 Height,Höhe,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,eec6c4bdbd339edf8cbea68becb85244
