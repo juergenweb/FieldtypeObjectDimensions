@@ -46,13 +46,13 @@ class ObjectDimensions extends WireData {
 
     /**
      * Render dimensions, area and volume as an unordered list
-     * @param string $multiplicationSign - the sign for the multiplication (default is *)
+     * @param string $multiplicationSign
      * @return string
      */
-    public function renderAllDimensions($mulitiplicationSign = '*'):string {
+    public function renderAllDimensions(string $multiplicationSign = '*'):string {
 
         $allDimensions = [
-            $this->renderDimensions(true, $mulitiplicationSign),
+            $this->renderDimensions(true, $multiplicationSign),
             $this->areaLabel,
             $this->volumeLabel
         ];
@@ -72,7 +72,7 @@ class ObjectDimensions extends WireData {
      * @return string
      */
     public function __toString():string {
-        return $this->renderAllDimensions(true);
+        return $this->renderAllDimensions();
     }
 
 }
