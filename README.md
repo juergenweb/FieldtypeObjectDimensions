@@ -51,7 +51,7 @@ echo $page->fieldname->volume; // outputs fe 12 cm³
 
 #### Output default value including the label
 
-If you want to output the label of each dimension in front of the value too, you have to use the following properties:
+If you want to output the label of each dimension in front of the value too, you have to use the following property calls:
 
 ```
 echo $page->fieldname->lenghtLabel; // outputs fe Length: 2 cm
@@ -63,7 +63,7 @@ echo $page->fieldname->volumeLabel; // outputs fe Volume: 12 cm³
 As you can see, you only have to add the word "Label" after the dimension name to output the dimension including the label. 
 
 #### Output raw values as stored inside the database
-If you want to get the raw values as they are stored inside the database, you have to call the properties like this:
+If you want to get the raw values as they are stored inside the database, you have to use this property calls:
 
 ```
 echo $page->fieldname->lenghtUnformatted; // outputs 2
@@ -72,10 +72,10 @@ echo $page->fieldname->heightUnformatted; // outputs fe 2
 echo $page->fieldname->areaUnformatted; // outputs fe 6
 echo $page->fieldname->volumeUnformatted; // outputs fe 12
 ```
-As you can see, the output will be only a number of type int or float and not a string
+As you can see, you only have to add the word "Unformatted" after the dimension name to output the raw value as integer or float. 
 
 #### Output the unit 
-If you need to output the unit (fe cm) on the frontend, then use the following call:
+If you need to output the unit (fe cm) on the frontend, then you have to use the following property call:
 
 ```
 echo $page->fieldname->unit; // outputs fe cm
