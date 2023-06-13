@@ -108,6 +108,7 @@ class InputfieldObjectDimensions extends Inputfield {
         unset($dimensionItems['dimensions']);
 
         foreach ($dimensionItems as $key => $v) {
+
             if ((($this->input_type == '2d') && ($key != 'height')) || ($this->input_type == '3d')) {
 
                 $out .= '<div id="' . $key . '_dimension" class="dimension-field">';
