@@ -293,35 +293,6 @@ class InputfieldObjectDimensions extends Inputfield {
         $f->description = $this->_('If checked a hint text will be displayed under the input fields to inform the user how much digits and decimals are allowed.');
         $inputfields->append($f);
 
-        $f = $this->modules->get('InputfieldMarkup');
-        $f->label = $this->_('API Notes');
-        $f->description = $this->_('The following can be used in your templates:');
-        $text = '<h3>' . $this->_('Raw values') . '</h3>';
-        $text .= '<p>' . $this->_('Raw values contain only the value without unit or label.') . '</p>';
-        $text .= '<pre>';
-        $typeHint = ' ' . $this->_('Output of a float or integer number.');
-        $text .= '$page->' . $this->name . '->width; //' . $this->_('Output the width (fe 3)') . $typeHint . PHP_EOL;
-        $text .= '$page->' . $this->name . '->height; //' . $this->_('Output the height (fe 3)') . $typeHint . PHP_EOL;
-        $text .= '$page->' . $this->name . '->length; //' . $this->_('Output the length (fe 2)') . $typeHint . PHP_EOL;
-        $text .= '$page->' . $this->name . '->volume; //' . $this->_('Output the volume (fe 18)') . $typeHint . PHP_EOL;
-        $text .= '$page->' . $this->name . '->area; //' . $this->_('Output the area (fe 6') . $typeHint . PHP_EOL;
-        $text .= '$page->' . $this->name . '->unit; //' . $this->_('Output the unit (fe cm)') . PHP_EOL;
-        $text .= '</pre>';
-        $text .= '<h3>' . $this->_('Formatted values') . '</h3>';
-        $text .= '<p>' . $this->_('Formatted values include the unit and optional the label.') . '</p>';
-        $text .= '<pre>';
-
-        $labelHint = ' ' . $this->_('Using true as parameter outputs the label too.');
-        $text .= '$page->' . $this->name . '->renderWidth(true); //' . $this->_('Output the formatted width (fe Width: 3 cm).') . $labelHint . PHP_EOL;
-        $text .= '$page->' . $this->name . '->renderHeight(true); //' . $this->_('Output the formatted height (fe Height: 3 cm).') . $labelHint . PHP_EOL;
-        $text .= '$page->' . $this->name . '->renderLength(true); //' . $this->_('Output the formatted length (fe Length: 2 cm).') . $labelHint . PHP_EOL;
-        $text .= '$page->' . $this->name . '->renderArea(); //' . $this->_('Output the formatted area (fe 6 cm²)') . $labelHint . PHP_EOL;
-        $text .= '$page->' . $this->name . '->renderVolume(); //' . $this->_('Output the formatted volume (fe 18 cm³)') . $labelHint . PHP_EOL;
-        $text .= '$page->' . $this->name . '->renderDimensions(); //' . $this->_('Output the formatted dimension (fe Dimensions: 25 cm x 10 cm x 25 cm)') . $labelHint . PHP_EOL;
-        $text .= '</pre>';
-        $f->value = $text;
-        $inputfields->add($f);
-
         // output all input fields (parent and custom)
         return $inputfields;
     }
