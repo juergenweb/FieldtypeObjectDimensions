@@ -39,7 +39,7 @@ Each dimension will be stored inside a column of the database.
 
 #### Default values
 
-There's a property for each dimension, which outputs the dimension including the unit (fe cm) as set inside the field configuration. So this properties always return a string.
+According to the database entries as illustrated in the previous image, there's a property for each dimension, which outputs the dimension including the unit (fe cm) as set inside the field configuration. So this properties always return a string.
 
 ```
 echo $page->fieldname->lenght; // outputs fe 2 cm
