@@ -29,7 +29,7 @@ class FieldtypeObjectDimensions extends Fieldtype {
         return array(
             'title' => 'Fieldtype Object Dimensions',
             'summary' => 'Fieldtype to store length, width, height, volume and area of an object.',
-            'version' => '1.2.1',
+            'version' => '1.2.2',
             'href' => 'https://github.com/juergenweb/FieldtypeObjectDimensions',
             'icon' => 'cube',
             'installs' => 'InputfieldObjectDimensions',
