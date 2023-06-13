@@ -1,4 +1,7 @@
 # ProcessWire-ObjectDimension-Fieldtype
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![ProcessWire 3](https://img.shields.io/badge/ProcessWire-3.x-orange.svg)](https://github.com/processwire/processwire)
+
 An inputfield and fieldtype for the ProcessWire CMS to enter dimensions (length, width and height) of an object.
 
 This fieldtype was inspired by the amazing fieldtype "Fieldtype Dimensions" from SOMA ([https://modules.processwire.com/modules/fieldtype-dimension/](https://modules.processwire.com/modules/fieldtype-dimension/)). This fieldtype was introduced in 2013 - so its time for a relaunch.
