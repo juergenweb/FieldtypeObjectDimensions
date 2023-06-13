@@ -33,6 +33,9 @@ All of the dimension values are fully searchable, so if you create a filter func
 ### Output values of each dimension on the frontend
 
 Afterwards you will find the properties on how to output the dimension values on the frontend. Please replace "fieldname" with the name of your input field.
+Each dimension will be stored inside a column of the database.
+
+![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/images/database.png?raw=true)
 
 #### Default values
 
