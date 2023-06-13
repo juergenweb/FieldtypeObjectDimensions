@@ -7,14 +7,12 @@ en,de,description,file,hash
 "Please enter max. %s digits including %s decimals.","Bitte geben Sie max. %s Ziffern einschließlich %s Dezimalstellen ein.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,3283751c3cde524977d93272395f1f79
 "Please enter max. %s digits and no decimals.","Bitte geben Sie max. %s Ziffern und keine Dezimalstellen ein.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,db195a1e32e56e7c45eaa1623fc14c6e
 "Field ""%s"" is required and must contain a positive value higher than 0.","Das Feld ""%s"" ist erforderlich und muss einen positiven Wert größer als 0 enthalten.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,c527c8b064fe4a4d45dce2474926672b
-"Field ""%s"" accepts only numeric values.","Das Feld ""%s"" akzeptiert nur numerische Werte.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,b373f6fbf893f68d651a4b53c35eb980
-"Field ""%s"" accepts only values larger than 0.","Das Feld ""%s"" akzeptiert nur Werte größer als 0.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,ae777017188097aada8dc5db2efe30dc
 "Field ""%s"" does not accept negative values.","Das Feld ""%s"" akzeptiert keine negativen Werte.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,489710b308d02fa8ecfae112452e87e3
 "Field ""%s"" only accepts a maximum of %d digits (including decimals). %d digits were entered, so your input was not stored in the database.","Das Feld ""%s"" akzeptiert nur maximal %d Stellen (einschließlich Dezimalstellen). %d Ziffern wurden eingegeben, daher wurde Ihre Eingabe nicht in der Datenbank gespeichert.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,21c3de0d91720414c488c1840b275cfa
 Type,Typ,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,a1fa27779242b4902f7ae3bdd5c6d508
 "3 dimensions","3 Dimensionen",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,3c65bb24f9e0fd72ffd943032d1d35dc
 "2 dimensions","2 Dimensionen",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,8546f1328193c3d393bab0049084bba7
-"3 dimensions: length, height and depth; 2 dimensions: length and height.","3 Dimensionen: Länge, Höhe und Tiefe; 2 Dimensionen: Länge und Höhe.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,1d9402e2f145f393e47ed2005c44bb9b
+"3 dimensions: length, width and height; 2 dimensions: length and width.","3 Abmessungen: Länge, Breite und Höhe; 2 Abmessungen: Länge und Breite.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,a61c61f4919c95e773a0f18322ea0434
 "Size unit",Größeneinheit,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,3678b48070e854518827a52cedc46389
 "The size unit for the 3 dimensions.","Die Größeneinheit für die 3 Dimensionen.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,54d541fc5db234706d45bf758607ec91
 "Number of digits","Anzahl an Ziffern",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,545b1c9f15d65442d37ed51a932f119b
@@ -32,7 +30,7 @@ Type,Typ,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.modu
 "Output of a float or integer number.","Ausgabe einer Float- oder Integer-Zahl.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,9fd71a58f29ab786dfe18396b1a1a61a
 "Output the width (fe 3)","Ausgabe der Breite (z.B. 3)",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,3d9a70e3b3b0389bcb826a11b759802b
 "Output the height (fe 3)","Ausgabe der Höhe (z.B. 3)",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,89b757f78313d6cc83fcc3fd69d31340
-"Output the depth (fe 2)","Ausgabe der Tiefe (z.B. 2)",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,1204e7d9e343d23417a52e1fa41177f4
+"Output the length (fe 2)","Ausgabe der Länge (z.B. 2)",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,ad984f76ef156bb8dc0aff699a76ddc3
 "Output the volume (fe 18)","Ausgabe des Volumens (z.B. 18)",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,ce90bfd7a8317d79d25ae8f0c71bf037
 "Output the area (fe 6","Ausgabe der Fläche (z.B. 6)",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,d1eab958d630202a74ed68d718d80f38
 "Output the unit (fe cm)","Ausgabe der Einheit (z.B. cm)",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,bbdb1d4b4ea76637224cb5978fbba48a
@@ -41,13 +39,17 @@ Type,Typ,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.modu
 "Using true as parameter outputs the label too.","Wenn als Parameter innerhalb der Klammer true angegeben wird, dann wird die Bezeichnung zusätzlich angezeigt.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,7a8f586e487a260e1e91cd2167339056
 "Output the formatted width (fe Width: 3 cm).","Gibt die formattierte Breite aus (z.B. 3 cm).",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,254495a4f0d826f53be899ee53a2b646
 "Output the formatted height (fe Height: 3 cm).","Gibt die formattierte Höhe aus (z.B. 3 cm).",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,8668ec7273901a14aa5439180c7a6f5c
-"Output the formatted depth (fe Depth: 2 cm).","Gibt die formattierte Tiefe aus (z.B. 2 cm).",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,8d42e3b315c10eed472ea9cdca6d6a1b
+"Output the formatted length (fe Length: 2 cm).","Gibt die formattierte Länge aus (z.B. 2 cm).",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,36935c3927340d02a56f6e7d51a20537
 "Output the formatted area (fe 6 cm²)","Gibt die formattierte Fläche aus (z.B. 6 cm²).",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,5815cb70506c20dd5da3006738a5c967
 "Output the formatted volume (fe 18 cm³)","Gibt das formattierte Volumen aus (z.B. 18 cm³)",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,8f7f5f0b380d51666ed8af6913265bbc
 "Output the formatted dimension (fe Dimensions: 25 cm x 10 cm x 25 cm)","Gibt die formattierten Abmessungen aus (z.B. 25 cm x 10 cm x 25 cm)",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,0ec800a1432f3b89797e5c6b5d27e3f3
-Depth,Tiefe,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,675056ad1441b6375b2c5abd48c27ef1
+Length,Länge,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,ba2a9c6c8c77e03f83ef8bf543612275
 Width,Breite,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,32954654ac8fe66a1d09be19001de2d4
 Height,Höhe,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,eec6c4bdbd339edf8cbea68becb85244
 Volume,Volumen,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,bd7a9717d29c5ddcab1bc175eda1e298
 Area,Fläche,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,deec4ff19974f12ed781cb9a59064214
 Dimensions,Abmessungen,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,f4843c1c797abf1a256c8802b6cd9f51
+en,de,description,file,hash
+L,=,,site/modules/FieldtypeObjectDimensions/ObjectDimensions.php,d20caec3b48a1eef164cb4ca81ba2587
+W,B,,site/modules/FieldtypeObjectDimensions/ObjectDimensions.php,61e9c06ea9a85a5088a499df6458d276
+H,=,,site/modules/FieldtypeObjectDimensions/ObjectDimensions.php,c1d9f50f86825a1a2302ec2449c17196
