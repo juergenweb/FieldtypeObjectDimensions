@@ -35,12 +35,13 @@ class ObjectDimensions extends WireData {
     public function renderDimensions(bool $label = false, string $multiplicationSign = '*'):string {
 
         $label = $label ? InputfieldObjectDimensions::getLabels()['dimensions'] . ': ' : '';
-
-        $length = $this->length ? $this->length . ' (' . $this->_('L') . ')' : '';
-        $width = $this->width ? $this->width . ' (' . $this->_('W') . ')' : '';
-        $height = $this->height ? $this->height . ' (' . $this->_('H') . ')' : '';
+        // do not show zero values inside the string
+        $length = ($this->lengthUnformatted != 0) != 0 ? $this->length . ' (' . $this->_('L') . ')' : '';
+        $width = ($this->widthUnformatted != 0) ? $this->width . ' (' . $this->_('W') . ')' : '';
+        $height = ($this->heightUnformatted != 0) ? $this->height . ' (' . $this->_('H') . ')' : '';
 
         $dimensions = array_filter([$length, $width, $height]);
+
         return $dimensions ? $label . implode(' ' . $multiplicationSign . ' ', $dimensions) : '';
     }
 
