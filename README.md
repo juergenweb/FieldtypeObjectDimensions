@@ -119,7 +119,7 @@ echo $page->fieldname->renderAll();
 ```
 will output fe
 ```
-Dimensions: 3 cm (L) x 4 cm (W) x 2 cm (H)
+Dimensions: 3 cm (L) * 4 cm (W) * 2 cm (H)
 Area: 12 cm²
 Volume: 24 cm²
 ```
@@ -138,11 +138,15 @@ echo $page->fieldname->renderAll('x');
 
 This replaces the default "*" with the "x" in this case.
 
-
+```
+Dimensions: 3 cm (L) x 4 cm (W) x 2 cm (H)
+Area: 12 cm²
+Volume: 24 cm²
+```
 
 ### Find pages by using selectors
 
-As written in the introduction all the dimensions are fully searchable. Here are 2 examples on how to query.
+As written in the introduction all the dimensions are fully searchable. Here are 3 examples on how to query.
 
 The dimensions can be used in selectors like:
 
