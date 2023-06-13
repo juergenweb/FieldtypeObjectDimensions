@@ -75,7 +75,7 @@ class ObjectDimensions extends WireData {
         $length = $this->renderLength() ?  $this->renderLength().' ('.$this->_('L').')' : '';
         $width = $this->renderWidth() ?  $this->renderWidth().' ('.$this->_('W').')' : '';
         $height = $this->renderHeight() ?  $this->renderHeight().' ('.$this->_('H').')' : '';
-        
+
         $dimensions = array_filter([$length, $width, $height]);
 
         return $dimensions ? $label . implode(' '.$multiplicationSign.' ', $dimensions) : '';
@@ -128,7 +128,7 @@ class ObjectDimensions extends WireData {
      * @return string
      */
     public function __toString():string {
-        return $this->renderDimensions();
+        return $this->renderAllDimensions(true);
     }
 
 }
