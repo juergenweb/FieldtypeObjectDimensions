@@ -17,12 +17,12 @@ class ObjectDimensions extends WireData {
 
         parent::__construct();
 
-        $this->set('length', null);
-        $this->set('width', null);
-        $this->set('height', null);
-        $this->set('volume', null);
-        $this->set('area', null);
-        $this->set('unit', null);
+        $this->set('length', 0.00);
+        $this->set('width', 0.00);
+        $this->set('height', 0.00);
+        $this->set('volume', 0.00);
+        $this->set('area', 0.00);
+        $this->set('unit', 0.00);
 
     }
 
