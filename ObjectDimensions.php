@@ -15,10 +15,9 @@ class ObjectDimensions extends WireData {
 
     public function __construct() {
         parent::__construct();
-
+        $this->set('length', null);
         $this->set('width', null);
         $this->set('height', null);
-        $this->set('depth', null);
         $this->set('volume', null);
         $this->set('area', null);
         $this->set('unit', null);
@@ -56,28 +55,30 @@ class ObjectDimensions extends WireData {
     }
 
     /**
-     * Render the depth including unit and (optional) the label
+     * Render the length including unit and (optional) the label
      * @param bool $label
      * @return string
      */
-    public function renderDepth(bool $label = false):string {
-        return $this->renderSingleDimension('depth', $label);
+    public function renderLength(bool $label = false):string {
+        return $this->renderSingleDimension('length', $label);
     }
 
     /**
      * Render all dimensions as a string (fe 25cm * 10cm * 25cm)
      * @param bool $label
-     * @param string $multiplicator - the sign for the multiplication
+     * @param string $multiplicationSign - the sign for the multiplication
      * @return string
      */
-    public function renderDimensions(bool $label = false, string $multiplicator = ' * '):string {
+    public function renderDimensions(bool $label = false, string $multiplicationSign = '*'):string {
         $label = $label ? InputfieldObjectDimensions::getLabels()['dimensions']. ': ' : '';
-        $dimensions = array_filter([
-            $this->renderWidth(),
-            $this->renderDepth(),
-            $this->renderHeight()
-        ]);
-        return $dimensions ? $label . implode($multiplicator, $dimensions) : '';
+
+        $length = $this->renderLength() ?  $this->renderLength().' ('.$this->_('L').')' : '';
+        $width = $this->renderWidth() ?  $this->renderWidth().' ('.$this->_('W').')' : '';
+        $height = $this->renderHeight() ?  $this->renderHeight().' ('.$this->_('H').')' : '';
+        
+        $dimensions = array_filter([$length, $width, $height]);
+
+        return $dimensions ? $label . implode(' '.$multiplicationSign.' ', $dimensions) : '';
     }
 
     /**
@@ -102,6 +103,25 @@ class ObjectDimensions extends WireData {
         $label = $label ? InputfieldObjectDimensions::getLabels()['area']. ': ' : '';
         $unit = ' ' . $this->unit . '<sup>2</sup>';
         return ($this->area > 0) ? $label . $this->area . $unit : '';
+    }
+
+    public function renderAllDimensions(bool $label = false, $mulitiplicationSign = '*'):string {
+
+        $allDimensions = [
+        $this->renderDimensions($label, $mulitiplicationSign),
+        $this->renderArea($label),
+        $this->renderVolume($label)
+        ];
+        $values = array_filter($allDimensions);
+        $out = '';
+        if($values){
+            $out .= '<ul class="dimensions">';
+            foreach($values as $value){
+                $out .= '<li>'.$value.'</li>';
+            }
+            $out .= '</ul>';
+        }
+        return $out;
     }
 
     /**
