@@ -22,7 +22,7 @@ class InputfieldObjectDimensions extends Inputfield {
         return [
             'title' => 'Inputfield Object Dimensions',
             'summary' => 'Inputfield for entering 2 (length, width) or 3 (length, width and height) dimensions of an object as integer or float number.',
-            'version' => '1.2.1',
+            'version' => '1.2.2',
             'href' => 'https://github.com/juergenweb/FieldtypeObjectDimensions',
             'icon' => 'cube',
             'permanent' => false,
