@@ -25,10 +25,10 @@ All of the dimension values including area and volume are fully searchable. An d
 * Multiple configuration settings in the backend adapt the input field to your needs
 
 ### 2 dimensions inputfield:
-![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/images/objectdimensions1.png?raw=true)
+![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/images/2d.png?raw=true)
 
 ### 3 dimensions inputfield:
-![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/images/objectdimensions2.png?raw=true)
+![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/images/3d.png?raw=true)
 
 ### Output values of each dimension on the frontend
 
