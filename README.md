@@ -114,7 +114,7 @@ will produce fe the following output:
 ```
 Dimensions: 0.12 cm (L) x 0.35 cm (W) x 3.75 cm (H)
 ```
-As you can see the label will be displayed in front of the values and the multiplication sign has changed from "** to "x".
+As you can see the label will be displayed in front of the values and the multiplication sign has changed from "*" to "x".
 
 #### renderAll()
 This will render a combined formatted string containing all dimensions, area and volume as an unordered list.
