@@ -11,18 +11,18 @@ This new fieldtype offers more possibilities than the old one from SOMA.
 * PHP>=8.0.0
 * ProcessWire>=3
 
-**Main differences to the old one**
-* You can select if 2 dimensions (length and width) or 3 dimension (length, width and height) should be displayed. 2 dimensions can be used for photos, wallpapers and so on. 3 dimensions for other objects.
-* You can enter the dimension values as float numbers or as integers (depending on the number of decimals set in the field configuration)
-* Various output formation for the values (raw database value, value including unit, value including unit and label
-* Set the unit to your preference (cm, mm, inch,...)
+## Purpose of this input field
 
-The code uses also some parts and ideas from the Fieldtype Decimals ([https://modules.processwire.com/modules/fieldtype-decimal/](https://modules.processwire.com/modules/fieldtype-decimal/)) - especially methods for altering the database schema.
+This inputfield/fieldtype let you enter 2 or 3 dimension values (length, width, height) of an object (fe a product) and calculates and stores the volume and the area too.
+All of the dimension values including area and volume are fully searchable. An daily life example could be a product page, where you can display the product dimensions.
 
-## What it does
-
-This inputfield/fieldtype let you enter 2 or 3 dimension values of an object (fe a product) and calculates and stores the volume and the area.
-All of the dimension values are fully searchable, so if you create a filter function you can grab all products with fullfill certain dimensions (fe show me all products where the length is lower than 100 cm and the width is lower than 30 cm).
+## Benefits
+* Calculates area and volume automatically, and these values are fully searchable too (beside the single dimensions)
+* Easy to use API for outputing various formats of the dimensions
+* Reduce code in templates 
+* Only one additonal database table instead of multiple for storing the values
+* Nice configurable one line user interface in the backend
+* Multiple configuration settings in the backend adapt the input field to your needs
 
 ### 2 dimensions inputfield:
 ![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/images/objectdimensions1.png?raw=true)
