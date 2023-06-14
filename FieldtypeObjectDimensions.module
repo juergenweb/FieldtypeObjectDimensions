@@ -89,7 +89,8 @@ class FieldtypeObjectDimensions extends Fieldtype {
 
     /**
      * After ProcessField::fieldSaved -> runs after saving the field configuration
-     * We need to hook field save to set width and volume to 0 in database if type was changed from 3d to 2d, because these properties do not exist on 2d
+     * We need to hook field save to set height and volume to 0 in database if type was changed from 3d to 2d,
+     * because these properties do not exist on 2d
      *
      * @param HookEvent $event
      * @return void
@@ -102,7 +103,7 @@ class FieldtypeObjectDimensions extends Fieldtype {
                 $database = $this->database;
                 $table = $field->getTable();
                 // update column width and volume to value 0
-                $query = "UPDATE `" . $database->escapeTable($table) . "` SET width = 0, volume = 0";
+                $query = "UPDATE `" . $database->escapeTable($table) . "` SET height = 0, volume = 0";
                 $database->query($query);
             }
         }
