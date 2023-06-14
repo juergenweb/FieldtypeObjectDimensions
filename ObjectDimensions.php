@@ -57,7 +57,15 @@ class ObjectDimensions extends WireData {
             $this->areaLabel,
             $this->volumeLabel
         ];
+        // disable 0 values on volume and area
+        if($this->areaUnformatted == 0);
+            unset($allDimensions[1])
+        if($this->volumeUnformatted == 0)
+            unset($allDimensions[2]);
+        
+        // filter out 0 values on dimensions string
         $values = array_filter($allDimensions);
+
         $out = '';
         if ($values) {
             $out .= '<ul class="dimensions">';
