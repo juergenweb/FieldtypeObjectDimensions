@@ -138,7 +138,7 @@ class InputfieldObjectDimensions extends Inputfield {
         // inform the user about how much decimals can be entered
         if ($this->input_showhint) {
             $notes = InputfieldWrapper::getMarkup()['item_notes'];
-            $notes = str_replace('{out}', $hint . ': ', $notes);
+            $notes = str_replace('{out}', $hint, $notes);
             $out .= $notes;
         }
 
