@@ -53,15 +53,18 @@ class ObjectDimensions extends WireData {
     public function renderAll(string $multiplicationSign = '*'):string {
 
         $allDimensions = [
-            $this->renderDimensions(true, $multiplicationSign),
-            $this->areaLabel,
-            $this->volumeLabel
+            'lwh' => $this->renderDimensions(true, $multiplicationSign),
+            'area' => $this->areaLabel,
+            'volume' => $this->volumeLabel
         ];
-        // disable 0 values on volume and area
-        if($this->areaUnformatted == 0);
-            unset($allDimensions[1])
-        if($this->volumeUnformatted == 0)
-            unset($allDimensions[2]);
+        // disable area if 0
+        if($this->areaUnformatted == 0) {
+            unset($allDimensions['area']);
+        }
+        // disable volume if 0
+        if($this->volumeUnformatted == 0){
+            unset($allDimensions['volume']);
+        }
         
         // filter out 0 values on dimensions string
         $values = array_filter($allDimensions);
@@ -69,8 +72,8 @@ class ObjectDimensions extends WireData {
         $out = '';
         if ($values) {
             $out .= '<ul class="dimensions">';
-            foreach ($values as $value) {
-                $out .= '<li>' . $value . '</li>';
+            foreach ($values as $name => $value) {
+                $out .= '<li class="'.$name.'">' . $value . '</li>';
             }
             $out .= '</ul>';
         }
