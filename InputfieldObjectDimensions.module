@@ -173,11 +173,7 @@ class InputfieldObjectDimensions extends Inputfield {
 
             // sanitize all values to be a float with the number of decimals set in the configuration
             $input->$name = (float)number_format((float)$input->$name, (int)$this->input_decimals, '.', '');
-
-            // get number of allowed and set digits
-            $allowedDigits = intval($this->input_digits);
-            $digitsEntered = strlen((string)$input->$name);
-
+            
             $errors = [];
             // if field is required, check if field has a value
             if ($this->required) {
@@ -193,13 +189,6 @@ class InputfieldObjectDimensions extends Inputfield {
                     $errors[] = 'negative';
                     $this->error(sprintf($this->_('Field "%s" does not accept negative values.'),
                         self::getLabels()[$key]));
-                }
-                if ($digitsEntered > $allowedDigits) {
-                    $errors[] = 'maximum';
-                    // validation if number of digits is not higher than in the config settings
-                    $msg = $this->_('Field "%s" only accepts a maximum of %d digits (including decimals). %d digits were entered, so your input was not stored in the database.');
-                    $this->error(sprintf($msg, self::getLabels()[$key], $allowedDigits,
-                        $digitsEntered)); // output error message
                 }
             }
 
@@ -256,6 +245,7 @@ class InputfieldObjectDimensions extends Inputfield {
         $inputfields->append($f);
 
         // field to enter the number of digits
+        /*
         $f = $this->modules->get('InputfieldInteger');
         $f->attr('name+id', 'input_digits');
         $f->attr('type', 'number');
@@ -267,6 +257,7 @@ class InputfieldObjectDimensions extends Inputfield {
         $f->required(true);
         $f->description = $this->_('The number of digits (including decimals) that can be entered in the dimension fields.');
         $inputfields->append($f);
+        */
 
         // field to enter the number of decimals (fe 2) -> will be appended after the inputfield
         $f = $this->modules->get('InputfieldInteger');
