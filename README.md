@@ -24,6 +24,12 @@ All of the dimension values including area and volume are fully searchable. An d
 * Nice configurable one line user interface in the backend
 * Multiple configuration settings in the backend adapt the input field to your needs
 
+## Field configuration
+As written above, there are several configuration settings, which can be changed on per field base.
+
+![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/images/configuration.png?raw=true)
+
+
 ### 2 dimensions inputfield:
 ![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/images/2d.png?raw=true)
 
