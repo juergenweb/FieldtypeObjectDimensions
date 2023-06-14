@@ -5,7 +5,7 @@
 An input field and fieldtype for the ProcessWire CMS to enter dimensions (length, width and height) of an object and to calculate area and volume.
 
 This fieldtype was inspired by the amazing fieldtype "Fieldtype Dimensions" from SOMA. This fieldtype was introduced in 2013 and it is probably not longer available - so its time for a relaunch.
-This new fieldtype offers more possibilities than the old one from SOMA.
+This new fieldtype comes with some additional features.
 
 ## Requirements
 * PHP>=8.0.0
