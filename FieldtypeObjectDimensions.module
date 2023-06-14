@@ -170,23 +170,23 @@ class FieldtypeObjectDimensions extends Fieldtype {
 
     public function ___formatValue(Page $page, Field $field, $value) {
 
-            $unit = $this->input_sizeunit ? ' ' . $this->input_sizeunit : ' cm';
-            $areaUnit = $unit . '<sup>2</sup>';
-            $volumeUnit = $unit . '<sup>3</sup>';
+        $unit = $field->input_sizeunit ? ' ' . $field->input_sizeunit : ' cm';
+        $areaUnit = $unit . '<sup>2</sup>';
+        $volumeUnit = $unit . '<sup>3</sup>';
 
         $fields = ['length', 'width', 'height', 'area', 'volume'];
 
         foreach ($fields as $name) {
-                // for the case if page has not been saved and the dimension values are null
-                if(is_null($value->$name)){
-                    $value->$name = 0; // set it to integer 0
-                }
-                // create right unit for each property
-                if (!isset(${$name . 'Unit'})) {
-                    $unitName = $unit;
-                } else {
-                    $unitName = ${$name . 'Unit'};
-                }
+            // for the case if page has not been saved and the dimension values are null
+            if (is_null($value->$name)) {
+                $value->$name = 0; // set it to integer 0
+            }
+            // create right unit for each property
+            if (!isset(${$name . 'Unit'})) {
+                $unitName = $unit;
+            } else {
+                $unitName = ${$name . 'Unit'};
+            }
 
             // prevent multiple addition of unit
             if (str_contains((string)$value->$name, $unitName)) {
