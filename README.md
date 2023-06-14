@@ -2,7 +2,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![ProcessWire 3](https://img.shields.io/badge/ProcessWire-3.x-orange.svg)](https://github.com/processwire/processwire)
 
-An input field and fieldtype for the ProcessWire CMS to enter dimensions (length, width and height) of an object and to calculate area and volume.
+An input field and fieldtype for the ProcessWire CMS to enter dimensions (length, width and height) of an object and to calculate area and volume automatically.
 
 This fieldtype was inspired by the amazing fieldtype "Fieldtype Dimensions" from SOMA. This fieldtype was introduced in 2013 and it is probably not longer available - so its time for a relaunch.
 This new fieldtype comes with some additional features.
@@ -17,28 +17,30 @@ This inputfield/fieldtype let you enter 2 or 3 dimension values (length, width, 
 All of the dimension values including area and volume are fully searchable. An daily life example could be a product page, where you can display the product dimensions.
 
 ## Benefits
-* Calculates area and volume automatically, and these values are fully searchable too (beside the single dimensions)
-* Easy to use API for outputing various formats of the dimensions
-* Reduce code in templates 
-* Only one additonal database table instead of multiple for storing the values
+* Calculates area and volume automatically, and these values are fully searchable too (beside the other dimensions)
+* Easy to use API for outputing various formats of the dimensions (raw format from the database, value including unit, value including label)
+* Reduced code in templates to output the values  
+* Only one additonal database table instead of multiple for storing the 5 values (length, width, height, area, volume)
 * Nice configurable one line user interface in the backend
-* Multiple configuration settings in the backend adapt the input field to your needs
+* Multiple configuration settings in the backend to adapt the input field to your needs
 
+## Views of the input fields in the backend
+Afterwards you will see how the input field looks like as 2 or 3 dimensional input.
 
-### 2 dimensions inputfield:
+### Input field view: 2 dimensions inputfield:
 ![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/images/2d.png?raw=true)
 
-### 3 dimensions inputfield:
+### Input field view: 3 dimensions inputfield:
 ![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/images/3d.png?raw=true)
 
-### Output values of each dimension on the frontend
+## Output values of each dimension on the frontend
 
 Afterwards you will find the properties on how to output the dimension values on the frontend. Please replace "fieldname" with the name of your input field.
 Each dimension will be stored inside a column of the database.
 
 ![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/images/database.png?raw=true)
 
-#### Default values
+### Default values
 
 According to the database entries as illustrated in the previous image, there's a property for each dimension, which outputs the dimension including the unit (fe cm) as set inside the field configuration. So this properties always return a string.
 
@@ -50,7 +52,7 @@ echo $page->fieldname->area; // outputs fe 6 cm²
 echo $page->fieldname->volume; // outputs fe 12 cm³
 ```
 
-#### Output default value including the label
+### Output default value including the label
 
 If you want to output the label of each dimension in front of the value too, you have to use the following property calls:
 
@@ -63,7 +65,7 @@ echo $page->fieldname->volumeLabel; // outputs fe Volume: 12 cm³
 ```
 As you can see, you only have to add the word "Label" after the dimension name to output the dimension including the label. 
 
-#### Output raw values as stored inside the database
+### Output raw values as stored inside the database
 If you want to get the raw values as they are stored inside the database, you have to use these property calls:
 
 ```
@@ -75,7 +77,7 @@ echo $page->fieldname->volumeUnformatted; // outputs fe 12
 ```
 As you can see, you only have to add the word "Unformatted" after the dimension name to output the raw value as integer or float. 
 
-#### Output the unit 
+### Output the unit 
 If you need to output the unit (fe cm) on the frontend, then you have to use the following property call:
 
 ```
@@ -147,7 +149,7 @@ Area: 12 cm²
 Volume: 24 cm²
 ```
 
-### Find pages by using selectors
+## Find pages by using selectors
 
 As written in the introduction all the dimensions are fully searchable. Here are 3 examples on how to query.
 
@@ -163,7 +165,7 @@ or
 
 `$pages->find("fieldname.volume>=1000");`
 
-### Field configuration
+## Field configuration
 
 As written above, there are several configuration settings, which can be changed on per field base.
 
@@ -185,6 +187,9 @@ If a number of 0 for decimals will be choosen, then the schema will automaticall
 In addition a small JavaScript prevents the user from entering more decimals into the inputs than set in the configuration of this fieldtype.
 Fe. if you set the number of decimals to 2, than the user cannot enter more than 2 decimals in the inputfield
 
+## Multi-language
+This fieldtype supports multi-language and includes the German translation files by default.
+
 ## How to install
 
 1. Download and place the module folder named "FieldtypeObjectDimensions" in:
@@ -196,3 +201,7 @@ screen, click the "Check for New Modules" button.
 3. Now scroll to the FieldtypeDimension module and click "Install". The required InputfieldObjectDimension will get installed automatic.
 
 4. Create a new Field with the new "ObjectDimension" Fieldtype.
+
+## Deinstall
+
+Please note: During the installation, a field type and an input field will be installed automatically with one click. If you want to uninstall this module you have to uninstall the fieldtype and the input field separately
