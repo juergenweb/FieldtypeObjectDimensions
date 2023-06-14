@@ -97,13 +97,14 @@ class FieldtypeObjectDimensions extends Fieldtype {
     public function removeWidthVolumeValue(HookEvent $event):void {
 
         $field = $event->arguments(0);
-
-        if ($field->input_type == '2d') {
-            $database = $this->database;
-            $table = $field->getTable();
-            // update column width and volume to value 0
-            $query = "UPDATE `" . $database->escapeTable($table) . "` SET width = 0, volume = 0";
-            $database->query($query);
+        if ($field->type instanceof FieldtypeObjectDimensions) {
+            if ($field->input_type == '2d') {
+                $database = $this->database;
+                $table = $field->getTable();
+                // update column width and volume to value 0
+                $query = "UPDATE `" . $database->escapeTable($table) . "` SET width = 0, volume = 0";
+                $database->query($query);
+            }
         }
     }
 
@@ -174,6 +175,7 @@ class FieldtypeObjectDimensions extends Fieldtype {
         $fields = ['length', 'width', 'height', 'area', 'volume'];
 
         foreach ($fields as $name) {
+
             // create right unit for each property
             if (!isset(${$name . 'Unit'})) {
                 $unitName = $unit;
