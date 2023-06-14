@@ -13,7 +13,7 @@ This new fieldtype comes with some additional features.
 
 ## Purpose of this input field
 
-This inputfield/fieldtype let you enter 2 or 3 dimension values (length, width, height) of an object (fe a product) and calculates and stores the volume and the area too.
+This input field/fieldtype let you enter 2 or 3 dimension values (length, width, height) of an object (fe a product) and calculates and stores the volume and the area too.
 All of the dimension values including area and volume are fully searchable. An daily life example could be a product page, where you can display the product dimensions.
 
 ## Benefits
@@ -27,10 +27,10 @@ All of the dimension values including area and volume are fully searchable. An d
 ## Views of the input fields in the backend
 Afterwards you will see how the input field looks like as 2 or 3 dimensional input.
 
-### Input field view: 2 dimensions inputfield:
+### Input field view: 2 dimensions input field:
 ![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/images/2d.png?raw=true)
 
-### Input field view: 3 dimensions inputfield:
+### Input field view: 3 dimensions input field:
 ![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/images/3d.png?raw=true)
 
 ## Output values of each dimension on the frontend
