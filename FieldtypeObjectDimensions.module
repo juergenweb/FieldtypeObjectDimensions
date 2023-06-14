@@ -18,9 +18,6 @@ include_once('ObjectDimensions.php');
 
 class FieldtypeObjectDimensions extends Fieldtype {
 
-    // set a default value for max number of digits inside the database for each dimension value
-    protected int $digits = 65;
-
     public function __construct() {
         parent::__construct();
     }
@@ -68,13 +65,9 @@ class FieldtypeObjectDimensions extends Fieldtype {
 
         if ($field->type instanceof FieldtypeObjectDimensions) {
 
-            //custom validations and messages for configuration input fields
-            $digits = $field->input_digits;
-            $decimals = $field->input_decimals;
-
             // Check if number of decimals is lower than the number of digits, because decimals are always part of
             // the digits (otherwise we will get an MySQL error)
-            if ($decimals > $digits) {
+            if ($field->input_decimals > 65) {
                 throw new Exception($this->_('The number of decimals must always be lower than the number of digits.'));
             }
 
@@ -327,10 +320,10 @@ class FieldtypeObjectDimensions extends Fieldtype {
     public function getConfiguredType(Field $field):string {
         if (intval($field->input_decimals) !== 0) { //set float schema
             // These should always be integers anyway
-            return "decimal(" . intval($field->input_digits) . "," . intval($field->input_decimals) . ")";
+            return "decimal(65," . intval($field->input_decimals) . ")";
         } else {
             //number of decimals= 0, so set integer schema
-            return "int(" . intval($field->input_digits) . ")"; // These should always be integers anyway
+            return "int(65)"; // These should always be integers anyway
         }
     }
 
