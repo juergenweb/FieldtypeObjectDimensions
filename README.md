@@ -24,11 +24,6 @@ All of the dimension values including area and volume are fully searchable. An d
 * Nice configurable one line user interface in the backend
 * Multiple configuration settings in the backend adapt the input field to your needs
 
-## Field configuration
-As written above, there are several configuration settings, which can be changed on per field base.
-
-![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/images/configuration.png?raw=true)
-
 
 ### 2 dimensions inputfield:
 ![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/images/2d.png?raw=true)
@@ -168,17 +163,17 @@ or
 
 `$pages->find("fieldname.volume>=1000");`
 
-### Field Settings
+### Field configuration
 
-There are several configuration options for this fieldtype in the backend.
+As written above, there are several configuration settings, which can be changed on per field base.
+
+![alt text](https://github.com/juergenweb/ProcessWire-ObjectDimension-Fieldtype/blob/master/images/configuration.png?raw=true)
 
 - set type (2 or 3 dimensional)
 - set size unit as suffix after each inputfield (default is cm)
 - set max number of digits that can be entered in each field (default is 10)
 - set max number of decimals (default is 2)
 - show/hide a hint to the user how much digits/decimals are allowed
-
-Some of the configurations settings can also be changed separately on per template base too.
 
 If the number of decimals will be changed, the database schema for each dimension column will also change (float/integer).
 
