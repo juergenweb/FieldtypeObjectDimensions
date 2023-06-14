@@ -69,7 +69,7 @@ echo $page->fieldname->volumeLabel; // outputs fe Volume: 12 cm³
 As you can see, you only have to add the word "Label" after the dimension name to output the dimension including the label. 
 
 #### Output raw values as stored inside the database
-If you want to get the raw values as they are stored inside the database, you have to use this property calls:
+If you want to get the raw values as they are stored inside the database, you have to use these property calls:
 
 ```
 echo $page->fieldname->lenghtUnformatted; // outputs 2
@@ -89,6 +89,8 @@ echo $page->fieldname->unit; // outputs fe cm
 This outputs the unit as a string (fe cm).
 
 ### Additional render methods
+
+This fieldtype includes 2 useful additional rendering methods, which are described afterwards.
 
 #### renderDimensions()
 This will render a formatted string containing all dimensions.
