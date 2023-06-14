@@ -202,6 +202,6 @@ screen, click the "Check for New Modules" button.
 
 4. Create a new Field with the new "ObjectDimension" Fieldtype.
 
-## Deinstall
+## How to uninstall
 
 Please note: During the installation, a field type and an input field will be installed automatically with one click. If you want to uninstall this module you have to uninstall the fieldtype and the input field separately
