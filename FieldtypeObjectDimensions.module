@@ -18,6 +18,9 @@ include_once('ObjectDimensions.php');
 
 class FieldtypeObjectDimensions extends Fieldtype {
 
+    // set a default value for max number of digits inside the database for each dimension value
+    protected int $digits = 65;
+
     public function __construct() {
         parent::__construct();
     }
@@ -34,7 +37,7 @@ class FieldtypeObjectDimensions extends Fieldtype {
             'icon' => 'cube',
             'installs' => 'InputfieldObjectDimensions',
             'requires' => [
-                'PHP>=7.2.0',
+                'PHP>=8.0',
                 'ProcessWire>=3'
             ],
             'author' => 'Jürgen Kern'
@@ -305,11 +308,11 @@ class FieldtypeObjectDimensions extends Fieldtype {
     public function getDatabaseSchema(Field $field):array {
 
         $schema = parent::getDatabaseSchema($field);
-        $schema['length'] = 'DECIMAL(10, 2) NOT NULL default 0.00';
-        $schema['width'] = 'DECIMAL(10, 2) NOT NULL default 0.00';
-        $schema['height'] = 'DECIMAL(10, 2) NOT NULL default 0.00';
-        $schema['area'] = 'DECIMAL(10, 2) NOT NULL default 0.00';
-        $schema['volume'] = 'DECIMAL(10, 2) NOT NULL default 0.00';
+        $schema['length'] = 'DECIMAL(65, 2) NOT NULL default 0.00';
+        $schema['width'] = 'DECIMAL(65, 2) NOT NULL default 0.00';
+        $schema['height'] = 'DECIMAL(65, 2) NOT NULL default 0.00';
+        $schema['area'] = 'DECIMAL(65, 2) NOT NULL default 0.00';
+        $schema['volume'] = 'DECIMAL(65, 2) NOT NULL default 0.00';
 
         return $schema;
     }
