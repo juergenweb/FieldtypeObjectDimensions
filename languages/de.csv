@@ -4,8 +4,8 @@ en,de,description,file,hash
 "Expecting an instance of ObjectDimensions","Es wird eine Instanz von ObjectDimensions erwartet",,site/modules/FieldtypeObjectDimensions/FieldtypeObjectDimensions.module,4db03ce1c5bf6a0bd6a7d570ee53b543
 "Cannot determine the type of the field","Es kann den Typ des Feldes nicht bestimmt werden",,site/modules/FieldtypeObjectDimensions/FieldtypeObjectDimensions.module,7acb128b9990d89bee09bb57f331232f
 en,de,description,file,hash
-"Please enter max. %s digits including %s decimals.","Bitte geben Sie max. %s Ziffern einschließlich %s Dezimalstellen ein.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,3283751c3cde524977d93272395f1f79
-"Please enter max. %s digits and no decimals.","Bitte geben Sie max. %s Ziffern und keine Dezimalstellen ein.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,db195a1e32e56e7c45eaa1623fc14c6e
+"Please enter %s decimals.","Bitte geben Sie %s Dezimalstellen ein.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,1e60719317d888b10adec519ace37fd1
+"Please enter no decimals.","Bitte geben Sie keine Dezimalstellen ein.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,6a7543b608d5dad98e27206aca069817
 "Field ""%s"" is required and must contain a positive value higher than 0.","Das Feld ""%s"" ist erforderlich und muss einen positiven Wert größer als 0 enthalten.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,c527c8b064fe4a4d45dce2474926672b
 "Field ""%s"" does not accept negative values.","Das Feld ""%s"" akzeptiert keine negativen Werte.",,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,489710b308d02fa8ecfae112452e87e3
 Type,Typ,,site/modules/FieldtypeObjectDimensions/InputfieldObjectDimensions.module,a1fa27779242b4902f7ae3bdd5c6d508
