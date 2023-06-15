@@ -255,7 +255,7 @@ class InputfieldObjectDimensions extends Inputfield {
         $f->attr('max', 30);
         $f->required(true);
         $f->description = $this->_('The number of decimals that can be entered in the dimension fields.');
-        $f->notes = $this->_('A value of 0 means that the dimension value is type of integer and not decimals. Max value is 30.');
+        $f->notes = $this->_('A value of 0 means that the dimension value is a type of integer and not decimals. Max value is 30.');
         $inputfields->append($f);
 
         // checkbox field to enable/disable the hint text for the max numbers of decimals on the form
@@ -264,7 +264,7 @@ class InputfieldObjectDimensions extends Inputfield {
         $f->attr('checked', $this->input_showhint == '1' ? 'checked' : '');
         $f->checkboxLabel = $this->_('Show hint');
         $f->label = $this->_('Show hint for max number of decimals below input fields.');
-        $f->description = $this->_('If checked a hint text will be displayed under the input fields to inform the user how much decimals are allowed.');
+        $f->description = $this->_('If checked, a hint text will be displayed under the input fields to inform the user how many decimals are allowed.');
         $inputfields->append($f);
 
         // output all input fields (parent and custom)
