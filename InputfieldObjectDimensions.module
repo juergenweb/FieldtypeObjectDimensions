@@ -87,13 +87,13 @@ class InputfieldObjectDimensions extends Inputfield {
         $decimals = intval($this->input_decimals);
 
         if ($decimals === 1) {
-            $hint = sprintf($this->_('Please enter max. %s digits including %s decimals.'), $this->input_digits, $this->input_decimals);
+            $hint = sprintf($this->_('Please enter %s decimals.'), $this->input_decimals);
             $steps = '0.1';
         } elseif ($decimals >= 1) {
-            $hint = sprintf($this->_('Please enter max. %s digits including %s decimals.'), $this->input_digits, $this->input_decimals);
+            $hint = sprintf($this->_('Please enter %s decimals.'), $this->input_decimals);
             $steps = '0.'.str_repeat('0', $decimals - 1).'1';
         } else {
-            $hint = sprintf($this->_('Please enter max. %s digits and no decimals.'), $this->input_digits);
+            $hint = $this->_('Please enter no decimals.');
             $steps = '1';
         }
         //create placeholder depending on number of decimals
