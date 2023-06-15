@@ -263,8 +263,8 @@ class InputfieldObjectDimensions extends Inputfield {
         $f->attr('name+id', 'input_showhint');
         $f->attr('checked', $this->input_showhint == '1' ? 'checked' : '');
         $f->checkboxLabel = $this->_('Show hint');
-        $f->label = $this->_('Show hint for max number of digits and decimals below input fields.');
-        $f->description = $this->_('If checked a hint text will be displayed under the input fields to inform the user how much digits and decimals are allowed.');
+        $f->label = $this->_('Show hint for max number of decimals below input fields.');
+        $f->description = $this->_('If checked a hint text will be displayed under the input fields to inform the user how much decimals are allowed.');
         $inputfields->append($f);
 
         // output all input fields (parent and custom)
