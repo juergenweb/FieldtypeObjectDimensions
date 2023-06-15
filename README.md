@@ -45,7 +45,7 @@ Each dimension will be stored inside a column of the database.
 According to the database entries as illustrated in the previous image, there's a property for each dimension, which outputs the dimension including the unit (fe cm) as set inside the field configuration. So this properties always return a string.
 
 ```
-echo $page->fieldname->lenght; // outputs fe 2 cm
+echo $page->fieldname->length; // outputs fe 2 cm
 echo $page->fieldname->width; // outputs fe 3 cm
 echo $page->fieldname->height; // outputs fe 2 cm
 echo $page->fieldname->area; // outputs fe 6 cm²
@@ -57,7 +57,7 @@ echo $page->fieldname->volume; // outputs fe 12 cm³
 If you want to output the label of each dimension in front of the value too, you have to use the following property calls:
 
 ```
-echo $page->fieldname->lenghtLabel; // outputs fe Length: 2 cm
+echo $page->fieldname->lengthLabel; // outputs fe Length: 2 cm
 echo $page->fieldname->widthLabel; // outputs fe Width: 3 cm
 echo $page->fieldname->heightLabel; // outputs fe Height: 2 cm
 echo $page->fieldname->areaLabel; // outputs fe Area: 6 cm²
@@ -69,7 +69,7 @@ As you can see, you only have to add the word "Label" after the dimension name t
 If you want to get the raw values as they are stored inside the database, you have to use these property calls:
 
 ```
-echo $page->fieldname->lenghtUnformatted; // outputs 2
+echo $page->fieldname->lengthUnformatted; // outputs 2
 echo $page->fieldname->widthUnformatted; // outputs fe 3
 echo $page->fieldname->heightUnformatted; // outputs fe 2
 echo $page->fieldname->areaUnformatted; // outputs fe 6
