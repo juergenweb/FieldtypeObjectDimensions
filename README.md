@@ -185,7 +185,6 @@ As written above, there are several configuration settings, which can be changed
 
 - Set type (2 or 3-dimensional)
 - Set size unit as suffix after each inputfield (default is cm)
-- Set max number of digits that can be entered in each field (default is 10)
 - Set max number of decimals (default is 2)
 - Show/hide a hint to the user how many digits/decimals are allowed
 
