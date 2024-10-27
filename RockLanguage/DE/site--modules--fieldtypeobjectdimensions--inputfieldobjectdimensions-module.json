@@ -1,0 +1,72 @@
+{
+    "file": "site\/modules\/FieldtypeObjectDimensions\/InputfieldObjectDimensions.module",
+    "textdomain": "site--modules--fieldtypeobjectdimensions--inputfieldobjectdimensions-module",
+    "translations": {
+        "1e60719317d888b10adec519ace37fd1": {
+            "text": "Bitte geben Sie %s Dezimalstellen ein."
+        },
+        "6a7543b608d5dad98e27206aca069817": {
+            "text": "Bitte geben Sie keine Dezimalstellen ein."
+        },
+        "c527c8b064fe4a4d45dce2474926672b": {
+            "text": "Das Feld \"%s\" ist erforderlich und muss einen positiven Wert gr\u00f6\u00dfer als 0 enthalten."
+        },
+        "489710b308d02fa8ecfae112452e87e3": {
+            "text": "Das Feld \"%s\" akzeptiert keine negativen Werte."
+        },
+        "a1fa27779242b4902f7ae3bdd5c6d508": {
+            "text": "Typ"
+        },
+        "3c65bb24f9e0fd72ffd943032d1d35dc": {
+            "text": "3 Dimensionen"
+        },
+        "8546f1328193c3d393bab0049084bba7": {
+            "text": "2 Dimensionen"
+        },
+        "a61c61f4919c95e773a0f18322ea0434": {
+            "text": "3 Abmessungen: L\u00e4nge, Breite und H\u00f6he; 2 Abmessungen: L\u00e4nge und Breite."
+        },
+        "3678b48070e854518827a52cedc46389": {
+            "text": "Gr\u00f6\u00dfeneinheit"
+        },
+        "54d541fc5db234706d45bf758607ec91": {
+            "text": "Die Gr\u00f6\u00dfeneinheit f\u00fcr die 3 Dimensionen."
+        },
+        "0a1e355325f75fe4cc3bf08b0f31f1c2": {
+            "text": "Anzahl der Dezimalstellen"
+        },
+        "85952b961f0fc0d497a56314c17135a5": {
+            "text": "Die Anzahl der Dezimalstellen, die in die Dimensionsfelder eingegeben werden k\u00f6nnen."
+        },
+        "8436a2b8377d22c36410f491abe084c6": {
+            "text": "Ein Wert von 0 bedeutet, dass der Dimensionswert eine ganze Zahl und kein Gleitkommawert ist (keine Dezimalstellen). Max. erlaubter Wert ist 30."
+        },
+        "d9bc6f4826dccbd3d948c5e26e146374": {
+            "text": "Hinweis anzeigen"
+        },
+        "fd4a49ac88741851f67a5f40df697a30": {
+            "text": "Hinweis f\u00fcr die maximale Anzahl von Dezimalstellen unter den Eingabefeldern anzeigen."
+        },
+        "e1cbaa4eb3784ae321d4865769428920": {
+            "text": "Wenn diese Option aktiviert ist, wird unter den Eingabefeldern ein Hinweistext angezeigt, der den Benutzer dar\u00fcber informiert, wie viele Dezimalstellen zul\u00e4ssig sind."
+        },
+        "ba2a9c6c8c77e03f83ef8bf543612275": {
+            "text": "L\u00e4nge"
+        },
+        "32954654ac8fe66a1d09be19001de2d4": {
+            "text": "Breite"
+        },
+        "eec6c4bdbd339edf8cbea68becb85244": {
+            "text": "H\u00f6he"
+        },
+        "bd7a9717d29c5ddcab1bc175eda1e298": {
+            "text": "Volumen"
+        },
+        "deec4ff19974f12ed781cb9a59064214": {
+            "text": "Fl\u00e4che"
+        },
+        "f4843c1c797abf1a256c8802b6cd9f51": {
+            "text": "Abmessungen"
+        }
+    }
+}

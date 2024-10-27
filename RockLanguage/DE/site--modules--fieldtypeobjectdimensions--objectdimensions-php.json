@@ -1,0 +1,15 @@
+{
+    "file": "site\/modules\/FieldtypeObjectDimensions\/ObjectDimensions.php",
+    "textdomain": "site--modules--fieldtypeobjectdimensions--objectdimensions-php",
+    "translations": {
+        "d20caec3b48a1eef164cb4ca81ba2587": {
+            "text": "="
+        },
+        "61e9c06ea9a85a5088a499df6458d276": {
+            "text": "B"
+        },
+        "c1d9f50f86825a1a2302ec2449c17196": {
+            "text": "="
+        }
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "file": "site\/modules\/FieldtypeObjectDimensions\/FieldtypeObjectDimensions.module",
+    "textdomain": "site--modules--fieldtypeobjectdimensions--fieldtypeobjectdimensions-module",
+    "translations": {
+        "afa45d7bbfafcdd8289c13eee8298374": {
+            "text": "Die Anzahl der Nachkommastellen muss immer kleiner sein als die Anzahl der Ziffern."
+        },
+        "2589678b532653d26443a16d79308053": {
+            "text": "Das Datenbankschema wurde aktualisiert."
+        },
+        "4db03ce1c5bf6a0bd6a7d570ee53b543": {
+            "text": "Es wird eine Instanz von ObjectDimensions erwartet"
+        },
+        "7acb128b9990d89bee09bb57f331232f": {
+            "text": "Es kann den Typ des Feldes nicht bestimmt werden"
+        }
+    }
+}
